@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lianxiao.demo.simpleserver.dao.StudentDao">
+    <resultMap id="StudentMap" type="com.lianxiao.demo.simpleserver.model.Student">
+        <id column="uid" jdbcType="INTEGER" property="id" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+    </resultMap>
+
+    <select id="selectAll"  resultMap="StudentMap">
+        SELECT * FROM student
+    </select>
+
+    <select id="selectByDescription"  parameterType="string" resultMap="StudentMap">
+        select * FROM student s where s.description like "%"#{description}"%"
+    </select>
+<!--
+    区间[left,right]
+    <select id="selectByYearInterval"  parameterType="int" resultMap="FilmMap">
+        select * FROM film f where f.year between #{left} and #{right}
+    </select>
+
+    或逻辑
+    <select id="selectByActName"  parameterType="string" resultMap="FilmMap">
+        select * FROM film f where f.actor = #{name} or f.actress = #{name}
+    </select>
+-->
+</mapper>

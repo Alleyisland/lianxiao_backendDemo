@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lianxiao.demo.simpleserver.dao.FilmDao">
+    <resultMap id="FilmMap" type="com.lianxiao.demo.simpleserver.model.Film">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="filmName" jdbcType="VARCHAR" property="filmName" />
+        <result column="year" jdbcType="INTEGER" property="year" />
+        <result column="director" jdbcType="VARCHAR" property="director" />
+        <result column="actor" jdbcType="VARCHAR" property="actor" />
+        <result column="actress" jdbcType="VARCHAR" property="actress" />
+        <result column="district" jdbcType="VARCHAR" property="district" />
+        <result column="pic_url" jdbcType="VARCHAR" property="pic_url" />
+        <result column="link" jdbcType="VARCHAR" property="link" />
+    </resultMap>
+
+    <select id="selectAll"  resultMap="FilmMap">
+        SELECT * FROM film
+    </select>
+
+    <select id="selectByFilmName"  parameterType="string" resultMap="FilmMap">
+        select * FROM film f where f.filmName like "%"#{filmName}"%"
+    </select>
+
+    <select id="selectByYearInterval"  parameterType="int" resultMap="FilmMap">
+        select * FROM film f where f.year between #{left} and #{right}
+    </select>
+
+    <select id="selectByActName"  parameterType="string" resultMap="FilmMap">
+        select * FROM film f where f.actor = #{name} or f.actress = #{name}
+    </select>
+
+</mapper>
