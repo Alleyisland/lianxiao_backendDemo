@@ -2,12 +2,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.framework</groupId>
-    <artifactId>cloud-vue-parent</artifactId>
+    <groupId>com.liaoxiao.demo</groupId>
+    <artifactId>liaoxiao-demo</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
 
-    <name>framework-clound-parent</name>
+    <name>framework-cloud-parent</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -34,9 +34,8 @@
         </dependencies>
     </dependencyManagement>
     <modules>
-        <module>moviespace-config</module>
-        <module>moviespace-eureka</module>
-        <module>moviespace-zuul</module>
+        <module>lianxiao-eureka</module>
+        <module>lianxiao-simple-server</module>
     </modules>
 
     <repositories>
