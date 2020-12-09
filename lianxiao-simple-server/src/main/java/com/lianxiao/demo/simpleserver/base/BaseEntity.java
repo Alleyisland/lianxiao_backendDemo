@@ -14,24 +14,11 @@ public class BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(name = "Id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @Transient
+    /*@Transient
     private Integer page = 1;
 
     @Transient
     private Integer rows = 10;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public Integer getPage() {
         return page;
@@ -47,5 +34,5 @@ public class BaseEntity implements Serializable {
 
     public void setRows(Integer rows) {
         this.rows = rows;
-    }
+    }*/
 }

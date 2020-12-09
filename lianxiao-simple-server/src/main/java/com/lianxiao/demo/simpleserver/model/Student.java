@@ -2,9 +2,11 @@ package com.lianxiao.demo.simpleserver.model;
 
 import javax.persistence.*;
 
+import com.alibaba.fastjson.annotation.JSONType;
 import com.lianxiao.demo.simpleserver.base.BaseEntity;
 
 @Table(name = "`student`")
+@JSONType(orders={"uid","password","description"})
 public class Student  extends BaseEntity {
 
     /**

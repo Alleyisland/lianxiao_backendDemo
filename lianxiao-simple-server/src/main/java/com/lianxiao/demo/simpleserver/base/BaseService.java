@@ -22,7 +22,7 @@ public interface BaseService<T extends BaseEntity> {
 
     int updateByPrimaryKeySelective(T record);
 
-    int save(T record);
+    //int save(T record);
 
     //PageInfo<T> selectPage(int pageNum, int pageSize, T record);
 

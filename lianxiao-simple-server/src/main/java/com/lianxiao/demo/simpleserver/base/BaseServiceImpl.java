@@ -89,7 +89,7 @@ public abstract class BaseServiceImpl< T extends BaseEntity> implements BaseServ
         return getMapper().updateByPrimaryKeySelective(record);
     }
 
-    @Override
+    /*@Override
     public int save(T record) {
         int count = 0;
         if (record.getId() == null) {
@@ -98,7 +98,7 @@ public abstract class BaseServiceImpl< T extends BaseEntity> implements BaseServ
             count = this.updateByPrimaryKeySelective(record);
         }
         return count;
-    }
+    }*/
 
     /*
     @Override
