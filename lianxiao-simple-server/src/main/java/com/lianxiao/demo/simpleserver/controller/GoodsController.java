@@ -39,6 +39,7 @@ public class GoodsController extends CommonController {
         return FastJsonUtils.resultError(200,"失败",null);
     }
 
+
     @ApiOperation(value = "列表测试", httpMethod = "GET")
     @RequestMapping(value = "/list", produces = {"application/json;charset=UTF-8"})
     @CrossOrigin("http://localhost:8080")
