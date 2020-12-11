@@ -10,6 +10,11 @@ mapper:
   identity: MYSQL
 
 spring:
+  elasticsearch:
+      rest:
+        uris: http://localhost:9200
+        username: root
+        password: 123456
   datasource:
     url: jdbc:mysql://localhost:3306/schoolink.test?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT
     username: root
@@ -21,3 +26,7 @@ spring:
       maximum-pool-size: 20
       max-lifetime: 1800000
       minimum-idle: 5
+  main:
+    allow-bean-definition-overriding: true
+
+
