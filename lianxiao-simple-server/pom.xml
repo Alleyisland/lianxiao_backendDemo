@@ -19,6 +19,14 @@
         <spring-cloud.version>Hoxton.SR6</spring-cloud.version>
     </properties>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>alimaven spring plugin</id>
+            <name>alimaven spring plugin</name>
+            <url>https://maven.aliyun.com/repository/spring-plugin</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>

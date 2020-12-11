@@ -12,11 +12,12 @@ import com.lianxiao.demo.simpleserver.dao.StudentDao;
 //import com.space.movie.moviespacesimpleserver.util.FastJsonUtils;
 import tk.mybatis.mapper.common.Mapper;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service
 public class StudentService extends BaseServiceImpl<Student>{
-    @Autowired
+    @Resource
     private StudentDao studentDao;
 
     @Override

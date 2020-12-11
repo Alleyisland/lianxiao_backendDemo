@@ -55,8 +55,9 @@ public class StudentController extends CommonController {
     @ResponseBody
     public String index(HttpServletRequest request) {
         List<Student> result=studentService.showAllStudent();
-        System.out.println(result.size());
+        //System.out.println(result.size());
         return FastJsonUtils.resultSuccess(200, "拉取列表成功", result);
     }
+
 
 }

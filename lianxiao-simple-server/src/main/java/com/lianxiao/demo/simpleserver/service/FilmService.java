@@ -12,11 +12,12 @@ import com.lianxiao.demo.simpleserver.dao.FilmDao;
 //import com.space.movie.moviespacesimpleserver.util.FastJsonUtils;
 import tk.mybatis.mapper.common.Mapper;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service
 public class FilmService extends BaseServiceImpl<Film>{
-    @Autowired
+    @Resource
     private FilmDao filmDao;
 
     @Override

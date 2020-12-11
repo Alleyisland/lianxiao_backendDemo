@@ -7,12 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.common.Mapper;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service
 public class AdService extends BaseServiceImpl<Ad> {
 
-    @Autowired
+    @Resource
     private AdDao adDao;
 
     @Override
