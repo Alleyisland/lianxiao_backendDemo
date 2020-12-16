@@ -8,4 +8,5 @@ public interface GoodsDao extends MyMapper<Goods> {
     List<Goods> selectAll();
 
     List<Goods> selectByName(@Param("gname") String gname);
+
 }
