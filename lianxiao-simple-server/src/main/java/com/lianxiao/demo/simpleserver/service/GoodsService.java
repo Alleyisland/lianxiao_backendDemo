@@ -26,4 +26,11 @@ public class GoodsService extends BaseServiceImpl<Goods> {
     public List<Goods> showAllGoods(){
         return goodsDao.selectAll();
     }
+
+    /**
+     * 根据名字查询商品
+     */
+    public List<Goods> searchByName(String gname){
+        return goodsDao.selectByName(gname);
+    }
 }

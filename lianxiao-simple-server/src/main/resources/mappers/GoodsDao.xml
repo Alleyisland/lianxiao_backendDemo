@@ -15,4 +15,9 @@
         SELECT * FROM goods
     </select>
 
+    <select id="selectByName" parameterType="string" resultMap="GoodsMap">
+        <bind name="pattern" value="'%'+gname+'%'" />
+        SELECT * FROM goods where gname like #{pattern}
+    </select>
+
 </mapper>

@@ -5,10 +5,7 @@ import com.lianxiao.demo.simpleserver.service.GoodsService;
 import com.lianxiao.demo.simpleserver.util.FastJsonUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -46,6 +43,15 @@ public class GoodsController extends CommonController {
     @ResponseBody
     public String list(HttpServletRequest request){
         List<Goods> result = goodsService.showAllGoods();
+        return FastJsonUtils.resultSuccess(200,"拉取列表成功",result);
+    }
+
+    @ApiOperation(value = "列表测试", httpMethod = "POST")
+    @RequestMapping(value = "/search", produces = {"application/json;charset=UTF-8"})
+    @CrossOrigin("http://localhost:8080")
+    @ResponseBody
+    public String search(HttpServletRequest request, @RequestParam String gname){
+        List<Goods> result = goodsService.searchByName(gname);
         return FastJsonUtils.resultSuccess(200,"拉取列表成功",result);
     }
 }
