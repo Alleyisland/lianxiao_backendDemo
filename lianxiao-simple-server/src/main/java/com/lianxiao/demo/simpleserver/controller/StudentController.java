@@ -1,13 +1,10 @@
 package com.lianxiao.demo.simpleserver.controller;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-//import com.github.pagehelper.PageInfo;
 
 import com.lianxiao.demo.simpleserver.service.StudentService;
 import com.lianxiao.demo.simpleserver.model.Student;

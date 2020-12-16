@@ -14,7 +14,9 @@
     <select id="selectAll"  resultMap="GoodsMap">
         SELECT * FROM goods
     </select>
-
+    <insert id="insertGoods"  parameterType="Goods">
+        INSERT INTO goods (gid,gtype,uid,gname,gdescription,price,pic_uri) value (#{gid},#{gtype},#{uid},#{gname},#{gdescription},#{price},#{pic_uri})
+    </insert>
     <select id="selectByName" parameterType="string" resultMap="GoodsMap">
         <bind name="pattern" value="'%'+gname+'%'" />
         SELECT * FROM goods where gname like #{pattern}

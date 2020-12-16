@@ -11,6 +11,10 @@
         SELECT * FROM student
     </select>
 
+    <insert id="insertStudent"  parameterType="Student">
+        INSERT INTO student (,) value (#{uid},#{password},#{description},)
+    </insert>
+
     <select id="selectByDescription"  parameterType="string" resultMap="StudentMap">
         select * FROM student s where s.description like "%"#{description}"%"
     </select>

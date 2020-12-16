@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface StudentDao extends MyMapper<Student> {
     List<Student> selectAll();
-
+    void insertStudent(Student student);
     //List<Student> selectByYearInterval(@Param("left") Integer left,@Param("right") Integer right);
 }

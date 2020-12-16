@@ -124,4 +124,5 @@ public class Goods extends BaseEntity {
     public void setPic_uri(String pic_uri) {
         this.pic_uri = pic_uri;
     }
+
 }

@@ -1,6 +1,7 @@
 package com.lianxiao.demo.simpleserver.controller;
 
 import com.lianxiao.demo.simpleserver.model.Goods;
+import com.lianxiao.demo.simpleserver.model.Myreply;
 import com.lianxiao.demo.simpleserver.service.GoodsService;
 import com.lianxiao.demo.simpleserver.util.FastJsonUtils;
 import io.swagger.annotations.ApiOperation;
@@ -29,7 +30,7 @@ public class GoodsController extends CommonController {
     /**
      失败测试
      */
-    @ApiOperation(value = "失败测试", httpMethod = "GET")
+    @ApiOperation(value = "成功测试", httpMethod = "GET")
     @RequestMapping(value = "/error", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String error(HttpServletRequest request) {
@@ -37,9 +38,8 @@ public class GoodsController extends CommonController {
     }
 
 
-    @ApiOperation(value = "列表测试", httpMethod = "GET")
-    @RequestMapping(value = "/list", produces = {"application/json;charset=UTF-8"})
-    @CrossOrigin("http://localhost:8080")
+    @ApiOperation(value = "成功测试", httpMethod = "GET")
+    @RequestMapping(value = "/list" , produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String list(HttpServletRequest request){
         List<Goods> result = goodsService.showAllGoods();
@@ -53,5 +53,13 @@ public class GoodsController extends CommonController {
     public String search(HttpServletRequest request, @RequestParam String gname){
         List<Goods> result = goodsService.searchByName(gname);
         return FastJsonUtils.resultSuccess(200,"拉取列表成功",result);
+    }
+    @ResponseBody
+    @GetMapping("/commit")
+    public String commit(HttpServletRequest request, @RequestParam String gid,@RequestParam String gtype,@RequestParam String uid,@RequestParam String gname,@RequestParam String gdescription,@RequestParam Double price,@RequestParam String pic_uri) {
+
+        Goods goods=new Goods(gid,gtype,uid,gname,gdescription,price,pic_uri);
+        goodsService.addGoods(goods);
+        return FastJsonUtils.resultSuccess(200, "回复成功", goods);
     }
 }
