@@ -6,7 +6,7 @@ import com.alibaba.fastjson.annotation.JSONType;
 import com.lianxiao.demo.simpleserver.base.BaseEntity;
 
 @Table(name = "`student`")
-@JSONType(orders={"uid","password","description"})
+@JSONType(orders={"uid","password","description","phone"})
 public class Student  extends BaseEntity {
 
     /**
@@ -27,10 +27,17 @@ public class Student  extends BaseEntity {
     @Column(name = "`description`")
     private String description;
 
-    public Student(String uid, String password, String description) {
+    /**
+     *电话
+     */
+    @Column(name = "`phone`")
+    private String phone;
+
+    public Student(String uid, String password, String description,String phone) {
         this.uid = uid;
         this.password = password;
         this.description = description;
+        this.phone = phone;
     }
 
 
@@ -60,5 +67,13 @@ public class Student  extends BaseEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

@@ -3,6 +3,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.lianxiao.demo.simpleserver.model.Myreply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,6 +55,15 @@ public class StudentController extends CommonController {
         List<Student> result=studentService.showAllStudent();
         //System.out.println(result.size());
         return FastJsonUtils.resultSuccess(200, "拉取列表成功", result);
+    }
+
+    @ResponseBody
+    @GetMapping("/commit")
+    public String commit(HttpServletRequest request, @RequestParam String uid,@RequestParam String password,@RequestParam String description,@RequestParam String phone) {
+
+        Student student=new Student(uid,password,description,phone);
+        studentService.addStudent(student);
+        return FastJsonUtils.resultSuccess(200, "注册成功", student);
     }
 
 

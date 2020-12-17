@@ -5,6 +5,7 @@
         <id column="uid" jdbcType="INTEGER" property="uid" />
         <result column="password" jdbcType="VARCHAR" property="password" />
         <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
     </resultMap>
 
     <select id="selectAll"  resultMap="StudentMap">
@@ -18,6 +19,10 @@
     <select id="selectByDescription"  parameterType="string" resultMap="StudentMap">
         select * FROM student s where s.description like "%"#{description}"%"
     </select>
+
+    <insert id="insertStudent" parameterType="Student">
+        INSERT INTO student (uid, password, description,phone) Value(#{uid},#{password},#{description},#{phone})
+    </insert>
 <!--
     区间[left,right]
     <select id="selectByYearInterval"  parameterType="int" resultMap="FilmMap">

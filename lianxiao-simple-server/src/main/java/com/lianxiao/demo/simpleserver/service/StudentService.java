@@ -22,7 +22,6 @@ public class StudentService extends BaseServiceImpl<Student>{
 
     @Override
     public Mapper<Student> getMapper() {
-
         return studentDao;
     }
 
@@ -30,8 +29,12 @@ public class StudentService extends BaseServiceImpl<Student>{
      * 查询所有学生
      */
     public List<Student> showAllStudent() {
-
         return studentDao.selectAll();
     }
+    public void addStudent(Student student) {
+        studentDao.insertStudent(student);
+
+    //public PageInfo<Film> getFilmList(Film record) {
+    //}
 
 }
