@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/post")
@@ -20,8 +17,6 @@ public class PostController extends BaseController {
 
     @Autowired
     private PostService postService;
-    @Autowired
-    private IdGeneratorUtils idGeneratorUtils;
 
     @GetMapping("/init")
     public void init() {
@@ -37,18 +32,20 @@ public class PostController extends BaseController {
         Integer type = (Integer) params.get("type");
         String title = (String) params.get("title");
         String content = (String) params.get("content");
-        long postId = Long.parseLong(idGeneratorUtils.nextId());
+        long postId = super.getIdGeneratorUtils().nextId();
 
         Post post = new Post(postId, type, title, content);
         postService.save(post);
-        return FastJsonUtils.resultSuccess(200, "成功", post);
+        Map<String,Object> result=new HashMap<>();
+        result.put("postId",postId);
+        return FastJsonUtils.resultSuccess(200, "发布帖子成功", result);
     }
 
     @GetMapping(value = "/search", produces = {"application/json;charset=UTF-8"})
     public String search(HttpServletRequest request, @RequestParam(required = false) String keyword) {
 
         Iterator<Post> result = postService.query(keyword).iterator();
-        return FastJsonUtils.resultSuccess(200, "成功", result);
+        return FastJsonUtils.resultSuccess(200, "搜索帖子成功", result);
     }
 
     @GetMapping(value = "/all", produces = {"application/json;charset=UTF-8"})

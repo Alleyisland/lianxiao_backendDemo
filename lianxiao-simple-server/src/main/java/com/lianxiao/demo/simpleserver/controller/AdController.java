@@ -24,6 +24,6 @@ public class AdController extends BaseController {
     @GetMapping(value = "/list", produces = {"application/json;charset=UTF-8"})
     public String list() {
         List<Ad> result = adService.showAllAd();
-        return FastJsonUtils.resultSuccess(200, "拉取列表成功", result);
+        return FastJsonUtils.resultSuccess(200, "拉取广告列表成功", result);
     }
 }

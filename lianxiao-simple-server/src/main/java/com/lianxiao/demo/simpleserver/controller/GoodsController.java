@@ -7,7 +7,9 @@ import com.lianxiao.demo.simpleserver.util.FastJsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/goods")
@@ -19,25 +21,28 @@ public class GoodsController extends BaseController {
     @GetMapping(value = "/list", produces = {"application/json;charset=UTF-8"})
     public String list() {
         List<Goods> result = goodsService.showAllGoods();
-        return FastJsonUtils.resultSuccess(200, "拉取列表成功", result);
+        return FastJsonUtils.resultSuccess(200, "拉取商品列表成功", result);
     }
 
 
     @GetMapping(value = "/search", produces = {"application/json;charset=UTF-8"})
     public String search(@RequestParam String gname) {
         List<Goods> result = goodsService.searchByName(gname);
-        return FastJsonUtils.resultSuccess(200, "拉取列表成功", result);
+        return FastJsonUtils.resultSuccess(200, "搜索商品成功", result);
     }
 
     @ResponseBody
     @GetMapping("/commit")
-    public String commit(@RequestParam long gid, @RequestParam int gtype,
+    public String commit(@RequestParam int gtype,
                          @RequestParam long uid, @RequestParam String gname,
                          @RequestParam String gdescription, @RequestParam Double price,
                          @RequestParam String pic_uri) {
 
+        long gid = super.getIdGeneratorUtils().nextId();
         Goods goods = new Goods(gid, gtype, uid, gname, gdescription, price, pic_uri);
         goodsService.addGoods(goods);
-        return FastJsonUtils.resultSuccess(200, "回复成功", goods);
+        Map<String,Object> result=new HashMap<>();
+        result.put("gid",gid);
+        return FastJsonUtils.resultSuccess(200, "发布商品成功", result);
     }
 }

@@ -48,7 +48,7 @@ public class IdGeneratorUtils {
                 timestampLeftShift, datacenterIdBits, workerIdBits, sequenceBits, workerId));
     }
 
-    public synchronized String nextId() {
+    public synchronized long nextId() {
         long timestamp = timeGen();
 
         if (timestamp < lastTimestamp) {
@@ -73,7 +73,7 @@ public class IdGeneratorUtils {
 
         lastTimestamp = timestamp;
 
-        return "" + (((timestamp - twepoch) << timestampLeftShift) | (datacenterId << datacenterIdShift)
+        return (((timestamp - twepoch) << timestampLeftShift) | (datacenterId << datacenterIdShift)
                 | (workerId << workerIdShift) | sequence);
     }
 

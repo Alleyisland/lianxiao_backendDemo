@@ -28,7 +28,7 @@ public class StudentController extends BaseController {
     @GetMapping(value = "/list", produces = {"application/json;charset=UTF-8"})
     public String list() {
         List<Student> result = studentService.showAllStudent();
-        return FastJsonUtils.resultSuccess(200, "拉取列表成功", result);
+        return FastJsonUtils.resultSuccess(200, "拉取学生列表成功", result);
     }
 
     @ResponseBody

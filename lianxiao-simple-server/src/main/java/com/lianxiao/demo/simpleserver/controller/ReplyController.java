@@ -21,7 +21,7 @@ public class ReplyController extends BaseController {
     @GetMapping("/list")
     public String list() {
         List<Reply> result = replyService.showAllReply();
-        return FastJsonUtils.resultSuccess(200, "拉取列表成功", result);
+        return FastJsonUtils.resultSuccess(200, "拉取回复列表成功", result);
     }
 
     @GetMapping("/commit")
