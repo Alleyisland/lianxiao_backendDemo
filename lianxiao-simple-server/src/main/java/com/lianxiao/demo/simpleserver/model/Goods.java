@@ -1,10 +1,12 @@
 package com.lianxiao.demo.simpleserver.model;
-import javax.persistence.*;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.lianxiao.demo.simpleserver.base.BaseEntity;
 
-@Table(name="`Goods`")
+import javax.persistence.Column;
+import javax.persistence.Table;
+
+@Table(name = "`Goods`")
 public class Goods extends BaseEntity {
     /**
      * gid
@@ -65,7 +67,7 @@ public class Goods extends BaseEntity {
         this.pic_uri = pic_uri;
     }
 
-    public Goods(){
+    public Goods() {
 
     }
 

@@ -1,14 +1,12 @@
 package com.lianxiao.demo.simpleserver.model;
 
 import com.lianxiao.demo.simpleserver.base.BaseEntity;
-import com.lianxiao.demo.simpleserver.dao.GoodsDao;
-import com.lianxiao.demo.simpleserver.dao.MyreplyDao;
 
 import javax.persistence.Column;
 import javax.persistence.Table;
 
-@Table(name="`myreply`")
-public class Myreply extends BaseEntity {
+@Table(name = "`reply`")
+public class Reply extends BaseEntity {
 
     @Column(name = "`rid`")
     private Integer rid;
@@ -19,13 +17,13 @@ public class Myreply extends BaseEntity {
     @Column(name = "`content`")
     private String content;
 
-    public Myreply(Integer rid, Integer uid, String content) {
+    public Reply(Integer rid, Integer uid, String content) {
         this.rid = rid;
         this.uid = uid;
         this.content = content;
     }
 
-    public Myreply() {
+    public Reply() {
     }
 
     public Integer getRid() {

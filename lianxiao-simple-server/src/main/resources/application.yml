@@ -12,7 +12,7 @@ mapper:
 spring:
   elasticsearch:
       rest:
-        uris: http://localhost:9200
+        uris: 47.100.4.109:9200
         username: root
         password: 123456
   datasource:

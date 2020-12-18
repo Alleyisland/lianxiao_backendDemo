@@ -1,13 +1,7 @@
 package com.lianxiao.demo.simpleserver.base;
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import java.io.Serializable;
 
 @Entity
 public class BaseEntity implements Serializable {

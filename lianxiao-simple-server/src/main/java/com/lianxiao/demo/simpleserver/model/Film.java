@@ -1,11 +1,12 @@
 package com.lianxiao.demo.simpleserver.model;
 
-import javax.persistence.*;
-
 import com.lianxiao.demo.simpleserver.base.BaseEntity;
 
+import javax.persistence.Column;
+import javax.persistence.Table;
+
 @Table(name = "`film`")
-public class Film  extends BaseEntity {
+public class Film extends BaseEntity {
 
     /**
      * 电影名

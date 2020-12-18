@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.lianxiao.demo.simpleserver.dao.MyreplyDao">
-    <resultMap id="MyreplyMap" type="com.lianxiao.demo.simpleserver.model.Myreply">
+<mapper namespace="com.lianxiao.demo.simpleserver.dao.ReplyDao">
+    <resultMap id="ReplyMap" type="com.lianxiao.demo.simpleserver.model.Reply">
         <id column="rid" jdbcType="INTEGER" property="rid" />
         <result column="uid" jdbcType="INTEGER" property="uid" />
         <result column="content" jdbcType="VARCHAR" property="content" />
     </resultMap>
 
-    <select id="selectAll"  resultMap="MyreplyMap">
-        SELECT * FROM myreply
+    <select id="selectAll"  resultMap="ReplyMap">
+        SELECT * FROM reply
     </select>
 
-    <insert id="insertReply" parameterType="Myreply">
-        INSERT INTO myreply (rid, uid, content) Value(#{rid},#{uid},#{content})
+    <insert id="insertReply" parameterType="Reply">
+        INSERT INTO reply (rid, uid, content) Value(#{rid},#{uid},#{content})
     </insert>
 
 </mapper>

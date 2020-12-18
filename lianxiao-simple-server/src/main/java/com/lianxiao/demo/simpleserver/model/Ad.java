@@ -5,7 +5,7 @@ import com.lianxiao.demo.simpleserver.base.BaseEntity;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
-@Table(name="`ad`")
+@Table(name = "`ad`")
 public class Ad extends BaseEntity {
     @Column(name = "`aid`")
     private int aid;

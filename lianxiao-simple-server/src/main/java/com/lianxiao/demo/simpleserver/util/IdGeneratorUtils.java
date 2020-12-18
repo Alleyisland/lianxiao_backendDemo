@@ -6,22 +6,22 @@ import javax.annotation.PostConstruct;
 
 @Component
 public class IdGeneratorUtils {
-    private long workerId=1;
-    private long datacenterId=0;
+    private final long workerId = 1;
+    private final long datacenterId = 0;
     private long sequence = 0L;
 
-    private long twepoch = 1288834974657L;
+    private final long twepoch = 1288834974657L;
 
-    private long workerIdBits = 8L;
-    private long datacenterIdBits = 2L;
-    private long maxWorkerId = -1L ^ (-1L << workerIdBits);
-    private long maxDatacenterId = -1L ^ (-1L << datacenterIdBits);
-    private long sequenceBits = 12L;
+    private final long workerIdBits = 8L;
+    private final long datacenterIdBits = 2L;
+    private final long maxWorkerId = ~(-1L << workerIdBits);
+    private final long maxDatacenterId = ~(-1L << datacenterIdBits);
+    private final long sequenceBits = 12L;
 
-    private long workerIdShift = sequenceBits;
-    private long datacenterIdShift = sequenceBits + workerIdBits;
-    private long timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits;
-    private long sequenceMask = -1L ^ (-1L << sequenceBits);
+    private final long workerIdShift = sequenceBits;
+    private final long datacenterIdShift = sequenceBits + workerIdBits;
+    private final long timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits;
+    private final long sequenceMask = ~(-1L << sequenceBits);
 
     private long lastTimestamp = -1L;
 

@@ -1,27 +1,26 @@
 package com.lianxiao.demo.simpleserver.base;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
-
-//import com.github.pagehelper.PageHelper;
-//import com.github.pagehelper.PageInfo;
-
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.entity.Example.Criteria;
 
-public abstract class BaseServiceImpl< T extends BaseEntity> implements BaseService<T>{
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+//import com.github.pagehelper.PageHelper;
+//import com.github.pagehelper.PageInfo;
+
+public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseService<T> {
 
     public abstract Mapper<T> getMapper();
 
     @Override
     public T selectOne(T record) {
         List<T> results = getMapper().select(record);
-        if(CollectionUtils.isNotEmpty(results)) return results.get(0);
+        if (CollectionUtils.isNotEmpty(results)) return results.get(0);
         else return null;
     }
 
@@ -31,20 +30,20 @@ public abstract class BaseServiceImpl< T extends BaseEntity> implements BaseServ
         return getMapper().select(record);
     }
 
-    public List<T> select(T record,String orderSqlStr){
-        Example example = new Example(record.getClass(),false);
+    public List<T> select(T record, String orderSqlStr) {
+        Example example = new Example(record.getClass(), false);
         Criteria criteria = example.createCriteria();
         Map<String, String> map;
         try {
             map = BeanUtils.describe(record);
-            for(Entry<String, String> entry : map.entrySet()){
-                if(entry.getValue() == null || "".equals(entry.getValue())) continue;
+            for (Entry<String, String> entry : map.entrySet()) {
+                if (entry.getValue() == null || "".equals(entry.getValue())) continue;
                 criteria.andEqualTo(entry.getKey(), entry.getValue());
             }
             example.setOrderByClause(orderSqlStr);
             return getMapper().selectByExample(example);
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(),e);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 

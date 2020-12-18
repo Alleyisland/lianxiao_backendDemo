@@ -1,22 +1,20 @@
 package com.lianxiao.demo.simpleserver.service;
 
-import com.lianxiao.demo.simpleserver.model.Film;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-
 import com.lianxiao.demo.simpleserver.base.BaseServiceImpl;
-//import com.space.movie.moviespacesimpleserver.contants.Constant;
 import com.lianxiao.demo.simpleserver.dao.FilmDao;
-//import com.space.movie.moviespacesimpleserver.util.EncryptUtil;
-//import com.space.movie.moviespacesimpleserver.util.FastJsonUtils;
+import com.lianxiao.demo.simpleserver.model.Film;
+import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.common.Mapper;
 
 import javax.annotation.Resource;
 import java.util.List;
 
+//import com.space.movie.moviespacesimpleserver.contants.Constant;
+//import com.space.movie.moviespacesimpleserver.util.EncryptUtil;
+//import com.space.movie.moviespacesimpleserver.util.FastJsonUtils;
+
 @Service
-public class FilmService extends BaseServiceImpl<Film>{
+public class FilmService extends BaseServiceImpl<Film> {
     @Resource
     private FilmDao filmDao;
 

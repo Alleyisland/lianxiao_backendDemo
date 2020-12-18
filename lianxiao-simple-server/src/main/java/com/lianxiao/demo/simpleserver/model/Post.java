@@ -6,9 +6,9 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-@Document(indexName = "post", shards = 1, replicas = 0)
-@JSONType(orders={"id","type","title","content"})
-public class Post  {
+@Document(indexName = "post", replicas = 0)
+@JSONType(orders = {"id", "type", "title", "content"})
+public class Post {
     @Id
     private Long id;
 
@@ -28,7 +28,7 @@ public class Post  {
         this.content = content;
     }
 
-    public Post(){
+    public Post() {
 
     }
 

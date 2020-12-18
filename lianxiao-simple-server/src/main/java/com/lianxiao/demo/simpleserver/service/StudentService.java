@@ -1,22 +1,20 @@
 package com.lianxiao.demo.simpleserver.service;
 
-import com.lianxiao.demo.simpleserver.model.Student;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-
 import com.lianxiao.demo.simpleserver.base.BaseServiceImpl;
-//import com.space.movie.moviespacesimpleserver.contants.Constant;
 import com.lianxiao.demo.simpleserver.dao.StudentDao;
-//import com.space.movie.moviespacesimpleserver.util.EncryptUtil;
-//import com.space.movie.moviespacesimpleserver.util.FastJsonUtils;
+import com.lianxiao.demo.simpleserver.model.Student;
+import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.common.Mapper;
 
 import javax.annotation.Resource;
 import java.util.List;
 
+//import com.space.movie.moviespacesimpleserver.contants.Constant;
+//import com.space.movie.moviespacesimpleserver.util.EncryptUtil;
+//import com.space.movie.moviespacesimpleserver.util.FastJsonUtils;
+
 @Service
-public class StudentService extends BaseServiceImpl<Student>{
+public class StudentService extends BaseServiceImpl<Student> {
     @Resource
     private StudentDao studentDao;
 
@@ -31,10 +29,12 @@ public class StudentService extends BaseServiceImpl<Student>{
     public List<Student> showAllStudent() {
         return studentDao.selectAll();
     }
+
     public void addStudent(Student student) {
         studentDao.insertStudent(student);
 
+    }
+
     //public PageInfo<Film> getFilmList(Film record) {
     //}
-
 }

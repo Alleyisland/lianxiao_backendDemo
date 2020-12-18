@@ -8,10 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
-import org.springframework.data.elasticsearch.core.query.GetQuery;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
-import org.springframework.data.elasticsearch.core.query.Query;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
@@ -27,7 +25,7 @@ public class PostService implements ElasticService<Post> {
     @Autowired
     private PostRepository postRepository;
 
-    private Pageable pageable = PageRequest.of(0,10);
+    private final Pageable pageable = PageRequest.of(0, 10);
 
     @Override
     public void createIndex() {
@@ -61,7 +59,7 @@ public class PostService implements ElasticService<Post> {
 
     @Override
     public Page<Post> query(String keyword) {
-        if(StringUtils.isEmpty(keyword)){
+        if (StringUtils.isEmpty(keyword)) {
             return postRepository.findAll(pageable);
         }
         NativeSearchQuery builder = new NativeSearchQueryBuilder()
@@ -69,8 +67,7 @@ public class PostService implements ElasticService<Post> {
                 .withQuery(matchQuery("content", keyword))
                 .withPageable(pageable)
                 .build();
-        Page<Post> posts = postRepository.search(builder);
-        return posts;
+        return postRepository.search(builder);
     }
 
     /*@Override
