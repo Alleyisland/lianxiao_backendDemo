@@ -13,21 +13,21 @@ public class Goods extends BaseEntity {
      */
     @Column(name = "`gid`")
     @JSONField(ordinal = 1)
-    private String gid;
+    private long gid;
 
     /**
      * gtype
      */
     @Column(name = "`gtype`")
     @JSONField(ordinal = 2)
-    private String gtype;
+    private int gtype;
 
     /**
      * uid
      */
     @Column(name = "`uid`")
     @JSONField(ordinal = 3)
-    private String uid;
+    private long uid;
 
     /**
      * 商品名称 gname
@@ -57,7 +57,7 @@ public class Goods extends BaseEntity {
     @JSONField(ordinal = 7)
     private String pic_uri;
 
-    public Goods(String gid, String gtype, String uid, String gname, String gdescription, Double price, String pic_uri) {
+    public Goods(long gid, int gtype, long uid, String gname, String gdescription, double price, String pic_uri) {
         this.gid = gid;
         this.gtype = gtype;
         this.uid = uid;
@@ -71,27 +71,27 @@ public class Goods extends BaseEntity {
 
     }
 
-    public String getGid() {
+    public long getGid() {
         return gid;
     }
 
-    public void setGid(String gid) {
+    public void setGid(long gid) {
         this.gid = gid;
     }
 
-    public String getGtype() {
+    public int getGtype() {
         return gtype;
     }
 
-    public void setGtype(String gtype) {
+    public void setGtype(int gtype) {
         this.gtype = gtype;
     }
 
-    public String getUid() {
+    public long getUid() {
         return uid;
     }
 
-    public void setUid(String uid) {
+    public void setUid(long uid) {
         this.uid = uid;
     }
 
@@ -111,7 +111,7 @@ public class Goods extends BaseEntity {
         this.gdescription = gdescription;
     }
 
-    public Double getPrice() {
+    public double getPrice() {
         return price;
     }
 

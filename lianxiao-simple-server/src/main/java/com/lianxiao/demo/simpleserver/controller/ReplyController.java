@@ -25,9 +25,10 @@ public class ReplyController extends BaseController {
     }
 
     @GetMapping("/commit")
-    public String commit(@RequestParam Integer rid, @RequestParam Integer uid, @RequestParam String content) {
+    public String commit(@RequestParam Integer rid, @RequestParam Integer pid,
+                         @RequestParam Integer uid, @RequestParam String content) {
 
-        Reply reply = new Reply(rid, uid, content);
+        Reply reply = new Reply(rid, pid, uid, content);
         replyService.addReply(reply);
         return FastJsonUtils.resultSuccess(200, "回复成功", reply);
     }

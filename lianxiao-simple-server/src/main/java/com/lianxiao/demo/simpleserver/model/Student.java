@@ -14,7 +14,7 @@ public class Student extends BaseEntity {
      * uid
      */
     @Column(name = "`uid`")
-    private String uid;
+    private long uid;
 
     /**
      * 密码
@@ -34,7 +34,7 @@ public class Student extends BaseEntity {
     @Column(name = "`phone`")
     private String phone;
 
-    public Student(String uid, String password, String description, String phone) {
+    public Student(long uid, String password, String description, String phone) {
         this.uid = uid;
         this.password = password;
         this.description = description;
@@ -46,11 +46,11 @@ public class Student extends BaseEntity {
 
     }
 
-    public String getUid() {
+    public long getUid() {
         return uid;
     }
 
-    public void setUid(String uid) {
+    public void setUid(long uid) {
         this.uid = uid;
     }
 

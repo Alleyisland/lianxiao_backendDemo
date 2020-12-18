@@ -31,7 +31,10 @@ public class GoodsController extends BaseController {
 
     @ResponseBody
     @GetMapping("/commit")
-    public String commit(@RequestParam String gid, @RequestParam String gtype, @RequestParam String uid, @RequestParam String gname, @RequestParam String gdescription, @RequestParam Double price, @RequestParam String pic_uri) {
+    public String commit(@RequestParam long gid, @RequestParam int gtype,
+                         @RequestParam long uid, @RequestParam String gname,
+                         @RequestParam String gdescription, @RequestParam Double price,
+                         @RequestParam String pic_uri) {
 
         Goods goods = new Goods(gid, gtype, uid, gname, gdescription, price, pic_uri);
         goodsService.addGoods(goods);

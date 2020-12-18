@@ -6,7 +6,7 @@ import javax.annotation.PostConstruct;
 
 @Component
 public class IdGeneratorUtils {
-    private final long workerId = 1;
+    private final long workerId = 0;
     private final long datacenterId = 0;
     private long sequence = 0L;
 
@@ -62,7 +62,7 @@ public class IdGeneratorUtils {
             timestamp = timeGen();
         }
 
-        if (lastTimestamp == timestamp) {
+        if (timestamp == lastTimestamp) {
             sequence = (sequence + 1) & sequenceMask;
             if (sequence == 0) {
                 timestamp = tilNextMillis(lastTimestamp);

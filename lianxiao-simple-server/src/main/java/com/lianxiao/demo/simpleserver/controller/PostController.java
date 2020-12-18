@@ -33,14 +33,12 @@ public class PostController extends BaseController {
     }
 
     @PostMapping(value = "/submit", produces = {"application/json;charset=UTF-8"})
-    public String submit(HttpServletRequest request, @RequestBody Map<String, Object> params) {
+    public String submit(@RequestBody Map<String, Object> params) {
         Integer type = (Integer) params.get("type");
         String title = (String) params.get("title");
         String content = (String) params.get("content");
+        long postId = Long.parseLong(idGeneratorUtils.nextId());
 
-        System.out.println(idGeneratorUtils.nextId());
-        Long postId = Long.parseLong(idGeneratorUtils.nextId());
-        System.out.println(postId);
         Post post = new Post(postId, type, title, content);
         postService.save(post);
         return FastJsonUtils.resultSuccess(200, "成功", post);

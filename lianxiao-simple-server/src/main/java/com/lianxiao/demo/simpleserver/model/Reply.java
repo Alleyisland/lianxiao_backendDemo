@@ -9,16 +9,20 @@ import javax.persistence.Table;
 public class Reply extends BaseEntity {
 
     @Column(name = "`rid`")
-    private Integer rid;
+    private long rid;
+
+    @Column(name = "`pid`")
+    private long pid;
 
     @Column(name = "`uid`")
-    private Integer uid;
+    private long uid;
 
     @Column(name = "`content`")
     private String content;
 
-    public Reply(Integer rid, Integer uid, String content) {
+    public Reply(long rid, long pid, long uid, String content) {
         this.rid = rid;
+        this.pid = pid;
         this.uid = uid;
         this.content = content;
     }
@@ -26,19 +30,27 @@ public class Reply extends BaseEntity {
     public Reply() {
     }
 
-    public Integer getRid() {
+    public long getRid() {
         return rid;
     }
 
-    public void setRid(Integer rid) {
+    public void setRid(long rid) {
         this.rid = rid;
     }
 
-    public Integer getUid() {
+    public long getPid() {
+        return pid;
+    }
+
+    public void setPid(long pid) {
+        this.pid = pid;
+    }
+
+    public long getUid() {
         return uid;
     }
 
-    public void setUid(Integer uid) {
+    public void setUid(long uid) {
         this.uid = uid;
     }
 

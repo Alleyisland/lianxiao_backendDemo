@@ -8,15 +8,15 @@ import javax.persistence.Table;
 @Table(name = "`ad`")
 public class Ad extends BaseEntity {
     @Column(name = "`aid`")
-    private int aid;
+    private long aid;
 
     @Column(name = "`gid`")
-    private int gid;
+    private long gid;
 
     @Column(name = "`word`")
     private String word;
 
-    public Ad(int aid, int gid, String word) {
+    public Ad(long aid, long gid, String word) {
         this.aid = aid;
         this.gid = gid;
         this.word = word;
@@ -26,19 +26,19 @@ public class Ad extends BaseEntity {
 
     }
 
-    public int getAid() {
+    public long getAid() {
         return aid;
     }
 
-    public void setAid(int aid) {
+    public void setAid(long aid) {
         this.aid = aid;
     }
 
-    public int getGid() {
+    public long getGid() {
         return gid;
     }
 
-    public void setGid(int gid) {
+    public void setGid(long gid) {
         this.gid = gid;
     }
 

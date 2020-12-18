@@ -33,7 +33,7 @@ public class StudentController extends BaseController {
 
     @ResponseBody
     @GetMapping("/commit")
-    public String commit(@RequestParam String uid, @RequestParam String password, @RequestParam String description, @RequestParam String phone) {
+    public String commit(@RequestParam long uid, @RequestParam String password, @RequestParam String description, @RequestParam String phone) {
 
         Student student = new Student(uid, password, description, phone);
         studentService.addStudent(student);
