@@ -26,18 +26,19 @@ public class GoodsController extends BaseController {
 
 
     @GetMapping(value = "/search", produces = {"application/json;charset=UTF-8"})
-    public String search(@RequestParam String gname) {
+    public String search(@RequestParam(required = false, defaultValue = "") String gname) {
         List<Goods> result = goodsService.searchByName(gname);
         return FastJsonUtils.resultSuccess(200, "搜索商品成功", result);
     }
 
     @ResponseBody
-    @GetMapping("/commit")
+    @PostMapping(value = "/commit", produces = {"application/json;charset=UTF-8"})
     public String commit(@RequestParam int gtype,
                          @RequestParam long uid, @RequestParam String gname,
-                         @RequestParam String gdescription, @RequestParam Double price,
-                         @RequestParam String pic_uri) {
-
+                         @RequestParam(required = false, defaultValue = "") String gdescription,
+                         @RequestParam Double price, @RequestParam String pic_uri)
+    {
+        System.out.println(gtype);
         long gid = super.getIdGeneratorUtils().nextId();
         Goods goods = new Goods(gid, gtype, uid, gname, gdescription, price, pic_uri);
         goodsService.addGoods(goods);

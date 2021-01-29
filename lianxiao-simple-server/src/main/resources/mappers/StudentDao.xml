@@ -8,11 +8,11 @@
         <result column="phone" jdbcType="VARCHAR" property="phone" />
     </resultMap>
 
-    <select id="selectAll"  resultMap="StudentMap">
-        SELECT * FROM student
+    <select id="selectByDescription"  parameterType="string" resultMap="StudentMap">
+        select * FROM student s where s.description like "%"#{description}"%"
     </select>
 
-    <select id="selectByDescription"  parameterType="string" resultMap="StudentMap">
+    <select id="selectForStudentAuthentication"  parameterType="Student" resultMap="StudentMap">
         select * FROM student s where s.description like "%"#{description}"%"
     </select>
 

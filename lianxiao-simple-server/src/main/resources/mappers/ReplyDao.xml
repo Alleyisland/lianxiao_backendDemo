@@ -8,10 +8,6 @@
         <result column="content" jdbcType="VARCHAR" property="content" />
     </resultMap>
 
-    <select id="selectAll"  resultMap="ReplyMap">
-        SELECT * FROM reply
-    </select>
-
     <insert id="insertReply" parameterType="Reply">
         INSERT INTO reply (rid, pid, uid, content) Value(#{rid},#{pid},#{uid},#{content})
     </insert>

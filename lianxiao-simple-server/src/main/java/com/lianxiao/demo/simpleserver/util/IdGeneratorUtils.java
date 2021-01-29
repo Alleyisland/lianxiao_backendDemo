@@ -3,6 +3,7 @@ package com.lianxiao.demo.simpleserver.util;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Singleton;
 
 @Component
 public class IdGeneratorUtils {
@@ -25,12 +26,25 @@ public class IdGeneratorUtils {
 
     private long lastTimestamp = -1L;
 
+    public volatile static IdGeneratorUtils instance=new IdGeneratorUtils();
+
     /*
      * workerId是机器ID，datacenterId是数据中心ID或机房ID。
      * 这都是为分布式而设置的，workerId每台机器肯定不一样，最大值由maxWorkerId限制。
      */
-    public IdGeneratorUtils() {
+    private IdGeneratorUtils() {
 
+    }
+
+    public static IdGeneratorUtils getInstance() {
+        if (instance == null) {
+            synchronized (IdGeneratorUtils.class) {
+                if (instance == null) {
+                    instance = new IdGeneratorUtils();
+                }
+            }
+        }
+        return instance;
     }
 
     @PostConstruct
