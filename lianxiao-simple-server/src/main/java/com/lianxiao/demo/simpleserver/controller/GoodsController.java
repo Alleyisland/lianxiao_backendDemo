@@ -48,7 +48,7 @@ public class GoodsController extends BaseController {
     }
 
     @GetMapping(value = "/delete", produces = {"application/json;charset=UTF-8"})
-    public String search(@RequestParam int gid) {
+    public String search(@RequestParam long gid) {
         goodsService.deleteById(gid);
         Map<String,Object> result=new HashMap<>();
         result.put("gid",gid);
