@@ -38,5 +38,11 @@ public class GoodsService extends BaseServiceImpl<Goods> {
         return goodsDao.selectByName(gname);
     }
 
+    /**
+     * 根据gid删除商品
+     */
+    public void deleteById(int gid) {
+        goodsDao.deleteById(gid);
+    }
 
 }

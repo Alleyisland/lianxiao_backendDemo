@@ -46,4 +46,12 @@ public class GoodsController extends BaseController {
         result.put("gid",gid);
         return FastJsonUtils.resultSuccess(200, "发布商品成功", result);
     }
+
+    @GetMapping(value = "/delete", produces = {"application/json;charset=UTF-8"})
+    public String search(@RequestParam int gid) {
+        goodsService.deleteById(gid);
+        Map<String,Object> result=new HashMap<>();
+        result.put("gid",gid);
+        return FastJsonUtils.resultSuccess(200, "删除商品成功", result);
+    }
 }
