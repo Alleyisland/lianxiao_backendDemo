@@ -16,5 +16,5 @@ public interface GoodsDao extends MyMapper<Goods> {
 
     List<Goods> selectByName(@Param("gname") String gname);
 
-    void deleteById(int gid);
+    void deleteById(long gid);
 }

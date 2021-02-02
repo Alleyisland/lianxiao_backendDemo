@@ -18,8 +18,8 @@
         <bind name="pattern" value="'%'+gname+'%'" />
         SELECT * FROM goods where gname like #{pattern}
     </select>
-    <delete id="deleteById" parameterType="int">
-        DELETE FROM goods where gid like #{gid}
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM goods where gid=#{gid}
     </delete>
 
 </mapper>

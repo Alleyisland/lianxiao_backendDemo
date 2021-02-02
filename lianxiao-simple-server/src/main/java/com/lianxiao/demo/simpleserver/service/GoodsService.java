@@ -41,7 +41,7 @@ public class GoodsService extends BaseServiceImpl<Goods> {
     /**
      * 根据gid删除商品
      */
-    public void deleteById(int gid) {
+    public void deleteById(long gid) {
         goodsDao.deleteById(gid);
     }
 
