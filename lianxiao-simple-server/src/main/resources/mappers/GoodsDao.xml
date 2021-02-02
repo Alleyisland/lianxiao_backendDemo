@@ -19,7 +19,7 @@
         SELECT * FROM goods where gname like #{pattern}
     </select>
     <delete id="deleteById" parameterType="int">
-        DELETE FROM goods where gid like #{gid}
+        DELETE FROM goods where gid=#{gid}
     </delete>
 
 </mapper>
