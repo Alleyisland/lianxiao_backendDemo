@@ -32,6 +32,6 @@ public class AdController extends BaseController {
         adService.deleteAd(aid);
         Map<String,Object> result=new HashMap<>();
         result.put("aid",aid);
-        return FastJsonUtils.resultSuccess(200, "回复成功", result);
+        return FastJsonUtils.resultSuccess(200, "删除广告成功", result);
     }
 }

@@ -40,6 +40,6 @@ public class ReplyController extends BaseController {
         replyService.deleteReply(rid);
         Map<String,Object> result=new HashMap<>();
         result.put("rid",rid);
-        return FastJsonUtils.resultSuccess(200, "回复成功", result);
+        return FastJsonUtils.resultSuccess(200, "删除回复成功", result);
     }
 }
