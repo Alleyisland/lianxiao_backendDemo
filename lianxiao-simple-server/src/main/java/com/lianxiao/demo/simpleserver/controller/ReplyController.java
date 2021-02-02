@@ -34,5 +34,12 @@ public class ReplyController extends BaseController {
         return FastJsonUtils.resultSuccess(200, "回复成功", result);
     }
 
+    @GetMapping(value = "/delete", produces = {"application/json;charset=UTF-8"})
+    public String delete(@RequestParam long rid) {
 
+        replyService.deleteReply(rid);
+        Map<String,Object> result=new HashMap<>();
+        result.put("rid",rid);
+        return FastJsonUtils.resultSuccess(200, "回复成功", result);
+    }
 }

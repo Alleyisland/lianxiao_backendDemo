@@ -31,4 +31,8 @@ public class ReplyService extends BaseServiceImpl<Reply> {
     public void addReply(Reply reply) {
         replyDao.insertReply(reply);
     }
+
+    public void deleteReply(long rid) {
+        replyDao.deleteReply(rid);
+    }
 }

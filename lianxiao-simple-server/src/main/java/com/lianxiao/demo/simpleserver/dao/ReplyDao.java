@@ -12,5 +12,6 @@ public interface ReplyDao extends MyMapper<Reply> {
     List<Reply> selectAll();
 
     void insertReply(Reply Reply);
+    void deleteReply(long rid);
 
 }
