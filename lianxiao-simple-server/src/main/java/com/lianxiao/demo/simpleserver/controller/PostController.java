@@ -42,7 +42,7 @@ public class PostController extends BaseController {
     }
 
     @GetMapping(value = "/search", produces = {"application/json;charset=UTF-8"})
-    public String search(HttpServletRequest request, @RequestParam(required = false) String keyword) {
+    public String search(@RequestParam(required = false) String keyword) {
 
         Iterator<Post> result = postService.query(keyword).iterator();
         return FastJsonUtils.resultSuccess(200, "搜索帖子成功", result);

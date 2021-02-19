@@ -35,4 +35,21 @@ public class ReplyService extends BaseServiceImpl<Reply> {
     public void deleteReply(long rid) {
         replyDao.deleteReply(rid);
     }
+
+    public Reply searchByRid(Long rid) {
+        List<Reply> results = replyDao.selectByRid(rid);
+        if(results.size()!=1)
+            return null;
+        else
+            return results.get(0);
+    }
+
+    public List<Reply> searchByPid(Long pid) {
+        return replyDao.selectByPid(pid);
+
+    }
+
+    public List<Reply> searchByUid(Long uid) {
+        return replyDao.selectByUid(uid);
+    }
 }

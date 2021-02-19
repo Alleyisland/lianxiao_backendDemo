@@ -7,6 +7,7 @@ import com.lianxiao.demo.simpleserver.util.FastJsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,9 +27,21 @@ public class GoodsController extends BaseController {
 
 
     @GetMapping(value = "/search", produces = {"application/json;charset=UTF-8"})
-    public String search(@RequestParam(required = false, defaultValue = "") String gname) {
-        List<Goods> result = goodsService.searchByName(gname);
-        return FastJsonUtils.resultSuccess(200, "搜索商品成功", result);
+    public String search(@RequestParam(required = false) Long gid,
+                         @RequestParam(required = false) Integer gtype,
+                         @RequestParam(required = false, defaultValue = "") String gname) {
+        List<Goods> results;
+        if(gid!=null) {
+            Goods result = goodsService.searchByGid(gid);
+            return FastJsonUtils.resultSuccess(200, "搜索商品成功", result);
+        }
+        else if(!gname.equals(""))
+            results = goodsService.searchByName(gname);
+        else if(gtype!=null)
+            results = goodsService.searchByType(gtype);
+        else
+            results = goodsService.showAllGoods();
+        return FastJsonUtils.resultSuccess(200, "搜索商品成功", results);
     }
 
     @ResponseBody

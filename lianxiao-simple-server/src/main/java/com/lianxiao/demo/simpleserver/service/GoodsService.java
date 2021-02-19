@@ -38,6 +38,9 @@ public class GoodsService extends BaseServiceImpl<Goods> {
         return goodsDao.selectByName(gname);
     }
 
+    public List<Goods> searchByType(int gtype){
+        return goodsDao.selectByType(gtype);
+    }
     /**
      * 根据gid删除商品
      */
@@ -45,4 +48,10 @@ public class GoodsService extends BaseServiceImpl<Goods> {
         goodsDao.deleteById(gid);
     }
 
+    public Goods searchByGid(long gid) {
+        List<Goods> result= goodsDao.selectByGid(gid);
+        if(result.size()!=1)
+            return null;
+        else return result.get(0);
+    }
 }

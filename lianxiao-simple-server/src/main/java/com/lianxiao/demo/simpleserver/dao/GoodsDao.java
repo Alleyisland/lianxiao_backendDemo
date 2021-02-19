@@ -16,5 +16,11 @@ public interface GoodsDao extends MyMapper<Goods> {
 
     List<Goods> selectByName(@Param("gname") String gname);
 
+    @Select(value = "select * from goods where gtype=#{gtype}")
+    List<Goods> selectByType(@Param("gtype") int gtype);
+
     void deleteById(long gid);
+
+    @Select(value = "select * from goods where gid=#{gid}")
+    List<Goods> selectByGid(long gid);
 }

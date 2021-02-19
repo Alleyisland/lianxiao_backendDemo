@@ -31,13 +31,25 @@ public class StudentController extends BaseController {
         return FastJsonUtils.resultSuccess(200, "拉取学生列表成功", result);
     }
 
-    @ResponseBody
     @GetMapping("/commit")
     public String commit(@RequestParam long uid, @RequestParam String password, @RequestParam String description, @RequestParam String phone) {
 
         Student student = new Student(uid, password, description, phone);
         studentService.addStudent(student);
         return FastJsonUtils.resultSuccess(200, "注册成功", student);
+    }
+
+    @GetMapping("/search")
+    public String search(@RequestParam(required = false) Long uid,
+                         @RequestParam(required = false,defaultValue = "") String description) {
+        List<Student> students;
+        if(uid==null&& description.equals(""))
+            return FastJsonUtils.resultSuccess(200, "请输入查询条件", null);
+        else if(uid!=null)
+            students=studentService.searchByUid(uid);
+        else
+            students=studentService.searchByDescription(description);
+        return FastJsonUtils.resultSuccess(200, "用户查询成功", students);
     }
 
 

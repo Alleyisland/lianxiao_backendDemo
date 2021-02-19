@@ -35,6 +35,14 @@ public class StudentService extends BaseServiceImpl<Student> {
 
     }
 
+    public List<Student> searchByUid(long uid) {
+        return studentDao.selectByUid(uid);
+    }
+
+    public List<Student> searchByDescription(String description) {
+        return studentDao.selectByDescription(description);
+    }
+
     //public PageInfo<Film> getFilmList(Film record) {
     //}
 }
