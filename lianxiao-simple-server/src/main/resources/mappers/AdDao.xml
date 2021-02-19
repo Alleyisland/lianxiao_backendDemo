@@ -7,6 +7,6 @@
         <result column="word" jdbcType="VARCHAR" property="word" />
     </resultMap>
     <delete id="deleteAd" parameterType="long">
-        DELETE FROM ad where aid like #{aid}
+        DELETE FROM ad where aid = #{aid}
     </delete>
 </mapper>
