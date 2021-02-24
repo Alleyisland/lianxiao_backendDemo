@@ -6,7 +6,10 @@ import com.lianxiao.demo.simpleserver.service.StudentService;
 import com.lianxiao.demo.simpleserver.util.FastJsonUtils;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -41,14 +44,14 @@ public class StudentController extends BaseController {
 
     @GetMapping("/search")
     public String search(@RequestParam(required = false) Long uid,
-                         @RequestParam(required = false,defaultValue = "") String description) {
+                         @RequestParam(required = false, defaultValue = "") String description) {
         List<Student> students;
-        if(uid==null&& description.equals(""))
+        if (uid == null && description.equals(""))
             return FastJsonUtils.resultSuccess(200, "请输入查询条件", null);
-        else if(uid!=null)
-            students=studentService.searchByUid(uid);
+        else if (uid != null)
+            students = studentService.searchByUid(uid);
         else
-            students=studentService.searchByDescription(description);
+            students = studentService.searchByDescription(description);
         return FastJsonUtils.resultSuccess(200, "用户查询成功", students);
     }
 

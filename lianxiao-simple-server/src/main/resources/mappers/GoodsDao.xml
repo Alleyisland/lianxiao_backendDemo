@@ -2,20 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lianxiao.demo.simpleserver.dao.GoodsDao">
     <resultMap id="GoodsMap" type="com.lianxiao.demo.simpleserver.model.Goods">
-        <id column="gid" jdbcType="BIGINT" property="gid" />
-        <result column="gtype" jdbcType="INTEGER" property="gtype" />
-        <result column="uid" jdbcType="BIGINT" property="uid" />
-        <result column="gname" jdbcType="VARCHAR" property="gname" />
-        <result column="gdescription" jdbcType="VARCHAR" property="gdescription" />
-        <result column="price" jdbcType="DECIMAL" property="price" />
-        <result column="pic_uri" jdbcType="VARCHAR" property="pic_uri" />
+        <id column="gid" jdbcType="BIGINT" property="gid"/>
+        <result column="gtype" jdbcType="INTEGER" property="gtype"/>
+        <result column="uid" jdbcType="BIGINT" property="uid"/>
+        <result column="gname" jdbcType="VARCHAR" property="gname"/>
+        <result column="gdescription" jdbcType="VARCHAR" property="gdescription"/>
+        <result column="price" jdbcType="DECIMAL" property="price"/>
+        <result column="pic_uri" jdbcType="VARCHAR" property="pic_uri"/>
     </resultMap>
 
-    <insert id="insertGoods"  parameterType="Goods">
+    <insert id="insertGoods" parameterType="Goods">
         INSERT INTO goods (gid,gtype,uid,gname,gdescription,price,pic_uri) value (#{gid},#{gtype},#{uid},#{gname},#{gdescription},#{price},#{pic_uri})
     </insert>
     <select id="selectByName" parameterType="string" resultMap="GoodsMap">
-        <bind name="pattern" value="'%'+gname+'%'" />
+        <bind name="pattern" value="'%'+gname+'%'"/>
         SELECT * FROM goods where gname like #{pattern}
     </select>
     <delete id="deleteById" parameterType="long">

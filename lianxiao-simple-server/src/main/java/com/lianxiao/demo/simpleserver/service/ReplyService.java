@@ -38,7 +38,7 @@ public class ReplyService extends BaseServiceImpl<Reply> {
 
     public Reply searchByRid(Long rid) {
         List<Reply> results = replyDao.selectByRid(rid);
-        if(results.size()!=1)
+        if (results.size() != 1)
             return null;
         else
             return results.get(0);

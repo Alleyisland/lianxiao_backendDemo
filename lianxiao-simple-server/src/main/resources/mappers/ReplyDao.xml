@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lianxiao.demo.simpleserver.dao.ReplyDao">
     <resultMap id="ReplyMap" type="com.lianxiao.demo.simpleserver.model.Reply">
-        <id column="rid" jdbcType="BIGINT" property="rid" />
-        <result column="pid" jdbcType="BIGINT" property="pid" />
-        <result column="uid" jdbcType="BIGINT" property="uid" />
-        <result column="content" jdbcType="VARCHAR" property="content" />
+        <id column="rid" jdbcType="BIGINT" property="rid"/>
+        <result column="pid" jdbcType="BIGINT" property="pid"/>
+        <result column="uid" jdbcType="BIGINT" property="uid"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
     </resultMap>
 
     <insert id="insertReply" parameterType="Reply">

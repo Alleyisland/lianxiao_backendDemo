@@ -2,28 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lianxiao.demo.simpleserver.dao.StudentDao">
     <resultMap id="StudentMap" type="com.lianxiao.demo.simpleserver.model.Student">
-        <id column="uid" jdbcType="BIGINT" property="uid" />
-        <result column="password" jdbcType="VARCHAR" property="password" />
-        <result column="description" jdbcType="VARCHAR" property="description" />
-        <result column="phone" jdbcType="VARCHAR" property="phone" />
+        <id column="uid" jdbcType="BIGINT" property="uid"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
     </resultMap>
 
-    <select id="selectByDescription"  parameterType="string" resultMap="StudentMap">
+    <select id="selectByDescription" parameterType="string" resultMap="StudentMap">
         select * FROM student s where s.description like "%"#{description}"%"
     </select>
 
     <insert id="insertStudent" parameterType="Student">
         INSERT INTO student (uid, password, description,phone) Value(#{uid},#{password},#{description},#{phone})
     </insert>
-<!--
-    区间[left,right]
-    <select id="selectByYearInterval"  parameterType="int" resultMap="FilmMap">
-        select * FROM film f where f.year between #{left} and #{right}
-    </select>
+    <!--
+        区间[left,right]
+        <select id="selectByYearInterval"  parameterType="int" resultMap="FilmMap">
+            select * FROM film f where f.year between #{left} and #{right}
+        </select>
 
-    或逻辑
-    <select id="selectByActName"  parameterType="string" resultMap="FilmMap">
-        select * FROM film f where f.actor = #{name} or f.actress = #{name}
-    </select>
--->
+        或逻辑
+        <select id="selectByActName"  parameterType="string" resultMap="FilmMap">
+            select * FROM film f where f.actor = #{name} or f.actress = #{name}
+        </select>
+    -->
 </mapper>

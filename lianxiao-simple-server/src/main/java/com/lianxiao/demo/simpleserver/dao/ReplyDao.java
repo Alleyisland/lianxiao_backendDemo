@@ -13,6 +13,7 @@ public interface ReplyDao extends MyMapper<Reply> {
     List<Reply> selectAll();
 
     void insertReply(Reply Reply);
+
     void deleteReply(long rid);
 
     @Select(value = "select * from reply where rid=#{rid}")

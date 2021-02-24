@@ -3,7 +3,6 @@ package com.lianxiao.demo.simpleserver.util;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Singleton;
 
 @Component
 public class IdGeneratorUtils {
@@ -26,7 +25,7 @@ public class IdGeneratorUtils {
 
     private long lastTimestamp = -1L;
 
-    public volatile static IdGeneratorUtils instance=new IdGeneratorUtils();
+    public volatile static IdGeneratorUtils instance = new IdGeneratorUtils();
 
     /*
      * workerId是机器ID，datacenterId是数据中心ID或机房ID。

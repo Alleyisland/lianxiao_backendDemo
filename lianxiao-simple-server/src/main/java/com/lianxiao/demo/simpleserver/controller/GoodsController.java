@@ -7,7 +7,6 @@ import com.lianxiao.demo.simpleserver.util.FastJsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,13 +30,12 @@ public class GoodsController extends BaseController {
                          @RequestParam(required = false) Integer gtype,
                          @RequestParam(required = false, defaultValue = "") String gname) {
         List<Goods> results;
-        if(gid!=null) {
+        if (gid != null) {
             Goods result = goodsService.searchByGid(gid);
             return FastJsonUtils.resultSuccess(200, "搜索商品成功", result);
-        }
-        else if(!gname.equals(""))
+        } else if (!gname.equals(""))
             results = goodsService.searchByName(gname);
-        else if(gtype!=null)
+        else if (gtype != null)
             results = goodsService.searchByType(gtype);
         else
             results = goodsService.showAllGoods();
@@ -49,22 +47,21 @@ public class GoodsController extends BaseController {
     public String commit(@RequestParam int gtype,
                          @RequestParam long uid, @RequestParam String gname,
                          @RequestParam(required = false, defaultValue = "") String gdescription,
-                         @RequestParam Double price, @RequestParam String pic_uri)
-    {
+                         @RequestParam Double price, @RequestParam String pic_uri) {
         System.out.println(gtype);
         long gid = super.getIdGeneratorUtils().nextId();
         Goods goods = new Goods(gid, gtype, uid, gname, gdescription, price, pic_uri);
         goodsService.addGoods(goods);
-        Map<String,Object> result=new HashMap<>();
-        result.put("gid",gid);
+        Map<String, Object> result = new HashMap<>();
+        result.put("gid", gid);
         return FastJsonUtils.resultSuccess(200, "发布商品成功", result);
     }
 
     @GetMapping(value = "/delete", produces = {"application/json;charset=UTF-8"})
     public String search(@RequestParam long gid) {
         goodsService.deleteById(gid);
-        Map<String,Object> result=new HashMap<>();
-        result.put("gid",gid);
+        Map<String, Object> result = new HashMap<>();
+        result.put("gid", gid);
         return FastJsonUtils.resultSuccess(200, "删除商品成功", result);
     }
 }

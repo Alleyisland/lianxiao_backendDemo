@@ -11,10 +11,10 @@ mapper:
 
 spring:
   elasticsearch:
-      rest:
-        uris: 47.100.4.109:9200
-        username: root
-        password: 123456
+    rest:
+      uris: 47.100.4.109:9200
+      username: root
+      password: 123456
   datasource:
     url: jdbc:mysql://47.100.4.109:3306/schoolink.test?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT
     username: root
@@ -28,5 +28,8 @@ spring:
       minimum-idle: 5
   main:
     allow-bean-definition-overriding: true
-
+rocketmq:
+  nameserver: 47.100.4.109:9876
+  producer:
+    group: producer-group
 

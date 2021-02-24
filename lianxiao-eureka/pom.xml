@@ -12,7 +12,7 @@
     <artifactId>lianxiao-eureka</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>lianxiao-eureka</name>
-    <description> eureka-server for project </description>
+    <description>eureka-server for project</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -5,7 +5,10 @@ import com.lianxiao.demo.simpleserver.model.Ad;
 import com.lianxiao.demo.simpleserver.service.AdService;
 import com.lianxiao.demo.simpleserver.util.FastJsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,8 +33,8 @@ public class AdController extends BaseController {
     @GetMapping(value = "/delete", produces = {"application/json;charset=UTF-8"})
     public String delete(@RequestParam long aid) {
         adService.deleteAd(aid);
-        Map<String,Object> result=new HashMap<>();
-        result.put("aid",aid);
+        Map<String, Object> result = new HashMap<>();
+        result.put("aid", aid);
         return FastJsonUtils.resultSuccess(200, "删除广告成功", result);
     }
 }

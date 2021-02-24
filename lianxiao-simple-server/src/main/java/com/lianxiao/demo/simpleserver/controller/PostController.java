@@ -4,11 +4,9 @@ import com.lianxiao.demo.simpleserver.base.BaseController;
 import com.lianxiao.demo.simpleserver.model.Post;
 import com.lianxiao.demo.simpleserver.service.PostService;
 import com.lianxiao.demo.simpleserver.util.FastJsonUtils;
-import com.lianxiao.demo.simpleserver.util.IdGeneratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @RestController
@@ -36,8 +34,8 @@ public class PostController extends BaseController {
 
         Post post = new Post(postId, type, title, content);
         postService.save(post);
-        Map<String,Object> result=new HashMap<>();
-        result.put("postId",postId);
+        Map<String, Object> result = new HashMap<>();
+        result.put("postId", postId);
         return FastJsonUtils.resultSuccess(200, "发布帖子成功", result);
     }
 
