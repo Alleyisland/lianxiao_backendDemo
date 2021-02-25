@@ -43,6 +43,10 @@ public class StudentService extends BaseServiceImpl<Student> {
         return studentDao.selectByDescription(description);
     }
 
+    public boolean auth(Student stu) {
+        return studentDao.selectByUidAndPassword(stu).size()==1;
+    }
+
     //public PageInfo<Film> getFilmList(Film record) {
     //}
 }

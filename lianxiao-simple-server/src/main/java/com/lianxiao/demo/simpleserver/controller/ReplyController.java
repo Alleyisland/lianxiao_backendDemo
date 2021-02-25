@@ -4,6 +4,9 @@ import com.lianxiao.demo.simpleserver.base.BaseController;
 import com.lianxiao.demo.simpleserver.model.Reply;
 import com.lianxiao.demo.simpleserver.service.ReplyService;
 import com.lianxiao.demo.simpleserver.util.FastJsonUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,19 +16,23 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/reply")
+@Api(description = "回复接口")
 public class ReplyController extends BaseController {
     @Autowired
     private ReplyService replyService;
 
-    @GetMapping(value = "/list", produces = {"application/json;charset=UTF-8"})
-    public String list() {
+    @GetMapping(value = "/all", produces = {"application/json;charset=UTF-8"})
+    @ApiOperation(value = "全部回复", notes = "全部回复")
+    public String all() {
         List<Reply> result = replyService.showAllReply();
         return FastJsonUtils.resultSuccess(200, "拉取回复列表成功", result);
     }
 
     @PostMapping(value = "/commit", produces = {"application/json;charset=UTF-8"})
-    public String commit(@RequestParam long pid,
-                         @RequestParam long uid, @RequestParam String content) {
+    @ApiOperation(value = "发表回复", notes = "发表回复")
+    public String commit(@ApiParam(name = "pid", value = "帖子id",required = true) @RequestParam long pid,
+                         @ApiParam(name = "uid", value = "发表者id",required = true) @RequestParam long uid,
+                         @ApiParam(name = "content", value = "回复内容",required = true) @RequestParam String content) {
         long rid = super.getIdGeneratorUtils().nextId();
         Reply reply = new Reply(rid, pid, uid, content);
         replyService.addReply(reply);
@@ -35,9 +42,10 @@ public class ReplyController extends BaseController {
     }
 
     @GetMapping(value = "/search", produces = {"application/json;charset=UTF-8"})
-    public String search(@RequestParam(required = false) Long rid,
-                         @RequestParam(required = false) Long uid,
-                         @RequestParam(required = false) Long pid) {
+    @ApiOperation(value = "查找回复", notes = "根据回复id/用户id/帖子id查找回复")
+    public String search(@ApiParam(name = "rid", value = "回复id") @RequestParam(required = false) Long rid,
+                         @ApiParam(name = "uid", value = "发表者id") @RequestParam(required = false) Long uid,
+                         @ApiParam(name = "pid", value = "帖子id") @RequestParam(required = false) Long pid) {
         List<Reply> results;
         if (rid == null && pid == null && uid == null)
             return FastJsonUtils.resultSuccess(200, "请输入查询条件", null);
@@ -52,7 +60,8 @@ public class ReplyController extends BaseController {
     }
 
     @GetMapping(value = "/delete", produces = {"application/json;charset=UTF-8"})
-    public String delete(@RequestParam long rid) {
+    @ApiOperation(value = "删除回复", notes = "删除回复")
+    public String delete(@ApiParam(name = "rid", value = "回复id",required = true) @RequestParam long rid) {
         replyService.deleteReply(rid);
         Map<String, Object> result = new HashMap<>();
         result.put("rid", rid);

@@ -5,6 +5,7 @@ import com.lianxiao.demo.simpleserver.util.MyMapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface StudentDao extends MyMapper<Student> {
@@ -18,5 +19,7 @@ public interface StudentDao extends MyMapper<Student> {
     List<Student> selectByUid(@Param(value = "uid") long uid);
 
     List<Student> selectByDescription(String description);
+
+    List<Student> selectByUidAndPassword(Student stu);
     //List<Student> selectByYearInterval(@Param("left") Integer left,@Param("right") Integer right);
 }

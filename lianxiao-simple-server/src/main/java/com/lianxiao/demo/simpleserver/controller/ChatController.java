@@ -3,6 +3,9 @@ package com.lianxiao.demo.simpleserver.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.lianxiao.demo.simpleserver.model.ChatMessage;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.rocketmq.client.consumer.DefaultMQPullConsumer;
 import org.apache.rocketmq.client.consumer.PullResult;
 import org.apache.rocketmq.client.consumer.PullStatus;
@@ -16,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,6 +27,8 @@ import javax.annotation.PostConstruct;
 import java.util.*;
 
 @RestController
+@RequestMapping("/chat")
+@Api(description = "聊天接口")
 public class ChatController {
     @Autowired
     private RocketMQTemplate rocketMQTemplate;
@@ -38,8 +44,10 @@ public class ChatController {
      * 普通消息投递
      */
     @GetMapping("/send")
-    public String send(@RequestParam(required = true) long senderId, @RequestParam(required = true) long receiverId,
-                       @RequestParam(required = true) String msg) {
+    @ApiOperation(value = "发消息", notes = "发消息")
+    public String send(@ApiParam(name = "senderId", value = "发送者id",required = true) @RequestParam(required = true) long senderId,
+                       @ApiParam(name = "receiverId", value = "接收者id",required = true) @RequestParam(required = true) long receiverId,
+                       @ApiParam(name = "msg", value = "消息内容",required = true) @RequestParam(required = true) String msg) {
         String topic_name = "chat_topic";
         String mqTag = "private_msg_to_" + receiverId;
         String mqKey = "private_msg_to_" + receiverId;
@@ -71,7 +79,8 @@ public class ChatController {
      * 消息批量更新
      */
     @GetMapping("/update")
-    public String update(@RequestParam(required = true) long receiverId) throws Exception {
+    @ApiOperation(value = "收取离线消息", notes = "收取离线消息")
+    public String update(@ApiParam(name = "receiverId", value = "接收者id",required = true) @RequestParam(required = true) long receiverId) throws Exception {
         List<ChatMessage> msgs = new ArrayList<>();
         String topic_name = "chat_topic";
         String mqTag = "private_msg_to_" + receiverId;
@@ -108,8 +117,4 @@ public class ChatController {
         return 0;
     }
 
-    @GetMapping("/error")
-    public String error(String msg) {
-        return "投递消息 => " + msg + " => 失败";
-    }
 }
