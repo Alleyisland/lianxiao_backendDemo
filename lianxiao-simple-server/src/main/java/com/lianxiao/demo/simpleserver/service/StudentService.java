@@ -46,7 +46,9 @@ public class StudentService extends BaseServiceImpl<Student> {
     public boolean auth(Student stu) {
         return studentDao.selectByUidAndPassword(stu).size()==1;
     }
-
+    public boolean authByPhone(String phone) {
+        return studentDao.selectByPhone(phone).size()==1;
+    }
     //public PageInfo<Film> getFilmList(Film record) {
     //}
 }

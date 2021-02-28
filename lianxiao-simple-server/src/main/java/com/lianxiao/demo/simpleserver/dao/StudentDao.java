@@ -20,6 +20,8 @@ public interface StudentDao extends MyMapper<Student> {
 
     List<Student> selectByDescription(String description);
 
+    @Select(value = "select * from student where phone=#{phone}")
+    List<Student> selectByPhone(String phone);
     List<Student> selectByUidAndPassword(Student stu);
     //List<Student> selectByYearInterval(@Param("left") Integer left,@Param("right") Integer right);
 }

@@ -62,6 +62,7 @@ public class Student extends BaseEntity {
         this.password = password;
     }
 
+
     public String getDescription() {
         return description;
     }
@@ -76,5 +77,8 @@ public class Student extends BaseEntity {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public void setCode(String code) {
     }
 }
