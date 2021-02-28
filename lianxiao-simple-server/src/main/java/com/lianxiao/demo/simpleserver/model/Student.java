@@ -79,6 +79,5 @@ public class Student extends BaseEntity {
         this.phone = phone;
     }
 
-    public void setCode(String code) {
-    }
+
 }
