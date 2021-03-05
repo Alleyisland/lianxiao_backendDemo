@@ -10,10 +10,16 @@ import io.swagger.annotations.ApiParam;
 import net.bytebuddy.utility.RandomString;
 import org.bouncycastle.crypto.prng.RandomGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +38,15 @@ public class StudentController extends BaseController {
     @Autowired
     private StudentService studentService;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Value("${redis.key.prefix.authCode}")
+    private String REDIS_KEY_PREFIX_AUTH_CODE;
+    //过期时间60秒
+    @Value("${redis.key.expire.authCode}")
+    private Long AUTH_CODE_EXPIRE_SECONDS;
+
     /**
      * 列表
      */
@@ -49,44 +64,96 @@ public class StudentController extends BaseController {
         return FastJsonUtils.resultSuccess(200, "注册成功", student);
     }
 
-    @GetMapping("/register_v2")
+    @GetMapping("/register_v2_step1")
     public String register_v2(@RequestParam String phone) {
-
-        String code=String.valueOf(new Random().nextInt(999) + 1000);
-        sendVerifyCode(phone,code);
-        return FastJsonUtils.resultSuccess(200, "验证码发送成功", null);
+        String json=sendVerifyCode(phone);
+        Map<String,Object> resMap=FastJsonUtils.getAllInfo(json);
+        if(resMap.containsKey("smsId"))
+            return FastJsonUtils.resultSuccess(200, "验证码发送成功", null);
+        else return FastJsonUtils.resultSuccess(200, "验证码发送失败", null);
     }
 
     @GetMapping("/register_v2_step2")
     public String register_v2_step2(@RequestParam String phone,@RequestParam String code) {
         boolean flag=verifyCode(phone,code);
-        long uid= getIdGeneratorUtils().nextId();
-        Student stu=null;
-        if(flag){
-            stu=new Student();
-            stu.setUid(uid);
-            stu.setPhone(phone);
-            if(studentService.authByPhone(phone))
-            studentService.addStudent(stu);//添加数据
-            else{
-                if(studentService.auth(stu))
-                    return FastJsonUtils.resultSuccess(200, "用户登录成功", stu);
-                else
-                    return FastJsonUtils.resultSuccess(200, "用户登录失败", null);
-            }//直接登录
-        }
-
         Map<String,Object> map=new HashMap<>();
-        map.put("uid",stu.getUid());
-        map.put("result",flag);
-        return FastJsonUtils.resultSuccess(200, "验证完成", map);
+        if(flag){
+            map.put("result",flag);
+            //登录
+            if(studentService.SelectByPhone(phone).size()==1) {
+                Student stu=studentService.SelectByPhone(phone).get(0);
+                map.put("uid",stu.getUid());
+                return FastJsonUtils.resultSuccess(200, "验证通过,用户登录成功", map);
+            }
+            //注册
+            else{
+                long uid= getIdGeneratorUtils().nextId();
+                Student stu=new Student();
+                stu.setUid(uid);
+                stu.setPhone(phone);
+                studentService.addStudent(stu);//插入
+                map.put("uid",stu.getUid());
+                return FastJsonUtils.resultSuccess(200, "验证通过,用户注册成功", map);
+            }
+        }
+        //验证码错误
+        else
+            return FastJsonUtils.resultSuccess(200, "验证码错误，用户注册/登录失败", null);
     }
 
     public boolean verifyCode(String phone,String code){
-        return true;
+        String uri = "https://api2.bmob.cn/1/verifySmsCode/"+code;
+        Map<String, String> map = new HashMap<>();
+        map.put("mobilePhoneNumber", phone);
+
+        try {
+            ResponseEntity<String> apiResponse = restTemplate.postForEntity
+                    (
+                            uri,
+                            generatePostJson(map),
+                            String.class
+                    );
+            if (apiResponse.getStatusCode().value() == 200) {
+                String json = apiResponse.getBody();
+                Map<String, Object> resMap = FastJsonUtils.getAllInfo(json);
+                return resMap.get("msg").equals("ok");
+            }
+        }
+        catch(Exception e){
+            return false;
+        }
+        return false;
     }
 
-    public void sendVerifyCode(String phone,String code){
+    public String sendVerifyCode(String phone){
+        String uri = "https://api2.bmob.cn/1/requestSmsCode";
+
+        Map<String, String> map = new HashMap<>();
+        map.put("mobilePhoneNumber", phone);
+
+        ResponseEntity<String> apiResponse = restTemplate.postForEntity
+                (
+                        uri,
+                        generatePostJson(map),
+                        String.class
+                );
+        return apiResponse.getBody();
+    }
+
+    public HttpEntity<Map<String, String>> generatePostJson(Map<String, String> jsonMap) {
+
+        //如果需要其它的请求头信息、都可以在这里追加
+        HttpHeaders httpHeaders = new HttpHeaders();
+
+        MediaType type = MediaType.parseMediaType("application/json;charset=UTF-8");
+
+        httpHeaders.setContentType(type);
+        httpHeaders.set("X-Bmob-Application-Id","f397a2b89250b22bd4482c8a19adcb20");
+        httpHeaders.set("X-Bmob-REST-API-Key","3c61f80666e631db54adb751658ce775");
+
+        HttpEntity<Map<String, String>> httpEntity = new HttpEntity<>(jsonMap, httpHeaders);
+
+        return httpEntity;
     }
 
     @GetMapping("/login_v1")

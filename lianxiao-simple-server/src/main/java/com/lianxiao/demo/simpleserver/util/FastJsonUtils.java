@@ -65,4 +65,16 @@ public class FastJsonUtils {
         return JSON.toJSONString(data, features);
     }
 
+
+    /**
+     * json转map
+     */
+    public static Map<String,Object> getAllInfo(String jsonStr){
+
+        Map<String,Object> map = JSON.parseObject(jsonStr, Map.class);
+
+        return map==null?new HashMap():map;
+
+    }
+
 }
