@@ -15,10 +15,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
@@ -57,15 +54,10 @@ public class StudentController extends BaseController {
         return FastJsonUtils.resultSuccess(200, "拉取学生列表成功", result);
     }
 
-    @GetMapping("/register")
-    public String register(@RequestParam long uid, @RequestParam String password, @RequestParam String description, @RequestParam String phone) {
-        Student student = new Student(uid, password, description, phone);
-        studentService.addStudent(student);
-        return FastJsonUtils.resultSuccess(200, "注册成功", student);
-    }
-
-    @GetMapping("/register_v2_step1")
-    public String register_v2(@RequestParam String phone) {
+    @GetMapping("/register_or_login/send_auth_code")
+    @ApiOperation(value = "获取验证码", notes = "注册、登录获取验证码")
+    public String registerOrLoginStepOne(@ApiParam(name = "phone", value = "手机号",required = true)
+                                                 @RequestParam String phone) {
         String json=sendVerifyCode(phone);
         Map<String,Object> resMap=FastJsonUtils.getAllInfo(json);
         if(resMap.containsKey("smsId"))
@@ -73,12 +65,14 @@ public class StudentController extends BaseController {
         else return FastJsonUtils.resultSuccess(200, "验证码发送失败", null);
     }
 
-    @GetMapping("/register_v2_step2")
-    public String register_v2_step2(@RequestParam String phone,@RequestParam String code) {
+    @PostMapping("/register_or_login/verify_auth_code")
+    @ApiOperation(value = "验证验证码", notes = "验证验证码")
+    public String registerOrLoginStepTwo(@ApiParam(name = "phone", value = "手机号",required = true)@RequestParam String phone,
+                                             @ApiParam(name = "code", value = "验证码",required = true)@RequestParam String code) {
         boolean flag=verifyCode(phone,code);
         Map<String,Object> map=new HashMap<>();
         if(flag){
-            map.put("result",flag);
+            map.put("result",true);
             //登录
             if(studentService.SelectByPhone(phone).size()==1) {
                 Student stu=studentService.SelectByPhone(phone).get(0);
@@ -97,8 +91,10 @@ public class StudentController extends BaseController {
             }
         }
         //验证码错误
-        else
-            return FastJsonUtils.resultSuccess(200, "验证码错误，用户注册/登录失败", null);
+        else {
+            map.put("result",true);
+            return FastJsonUtils.resultSuccess(200, "验证码错误，用户注册/登录失败", map);
+        }
     }
 
     public boolean verifyCode(String phone,String code){
@@ -156,17 +152,35 @@ public class StudentController extends BaseController {
         return httpEntity;
     }
 
-    @GetMapping("/login_v1")
-    @ApiOperation(value = "用户登录_v1", notes = "用户登录_v1")
-    public String login(@ApiParam(name = "uid", value = "用户id",required = true)@RequestParam Long uid,
+    @PostMapping("/login_v2")
+    @ApiOperation(value = "登录_v2", notes = "登录_v2")
+    public String login(@ApiParam(name = "phone", value = "手机号",required = true)@RequestParam String phone,
                          @ApiParam(name = "password", value = "密码",required = true)@RequestParam String password) {
         Student stu=new Student();
-        stu.setUid(uid);
+        stu.setPhone(phone);
         stu.setPassword(password);
         if(studentService.auth(stu))
             return FastJsonUtils.resultSuccess(200, "用户登录成功", stu);
         else
             return FastJsonUtils.resultSuccess(200, "用户登录失败", null);
+    }
+
+    @PostMapping("/update_info")
+    @ApiOperation(value = "修改用户信息", notes = "修改用户信息")
+    public String updateInfo(@ApiParam(name = "uid", value = "用户id",required = true)@RequestParam Long uid,
+                             @ApiParam(name = "name", value = "用户名")@RequestParam(required = false, defaultValue = "") String name,
+                             @ApiParam(name = "password", value = "密码")@RequestParam(required = false, defaultValue = "") String password,
+                             @ApiParam(name = "description", value = "用户描述")@RequestParam(required = false, defaultValue = "") String description
+                             ) {
+        Student newStu=studentService.searchByUid(uid).get(0);
+        if(!"".equals(name))
+            newStu.setName(name);
+        if(!"".equals(password))
+            newStu.setPassword(password);
+        if(!"".equals(description))
+            newStu.setDescription(description);
+        studentService.update(newStu);
+        return FastJsonUtils.resultSuccess(200, "修改成功", null);
     }
 
     @GetMapping("/search")

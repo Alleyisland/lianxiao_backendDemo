@@ -7,7 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Table;
 
 @Table(name = "`student`")
-@JSONType(orders = {"uid", "password", "description", "phone"})
+@JSONType(orders = {"uid","name","password", "description", "phone"})
 public class Student extends BaseEntity {
 
     /**
@@ -25,6 +25,12 @@ public class Student extends BaseEntity {
     /**
      * 描述
      */
+    @Column(name = "`name`")
+    private String name;
+
+    /**
+     * 描述
+     */
     @Column(name = "`description`")
     private String description;
 
@@ -34,8 +40,9 @@ public class Student extends BaseEntity {
     @Column(name = "`phone`")
     private String phone;
 
-    public Student(long uid, String password, String description, String phone) {
+    public Student(long uid,String name, String password, String description, String phone) {
         this.uid = uid;
+        this.name= name;
         this.password = password;
         this.description = description;
         this.phone = phone;
@@ -79,5 +86,11 @@ public class Student extends BaseEntity {
         this.phone = phone;
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 }

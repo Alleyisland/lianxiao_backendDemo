@@ -44,10 +44,14 @@ public class StudentService extends BaseServiceImpl<Student> {
     }
 
     public boolean auth(Student stu) {
-        return studentDao.selectByUidAndPassword(stu).size()==1;
+        return studentDao.selectByPhoneAndPassword(stu).size()==1;
     }
     public List<Student> SelectByPhone(String phone) {
         return studentDao.selectByPhone(phone);
+    }
+
+    public void update(Student newStu) {
+        studentDao.updateByUid(newStu);
     }
     //public PageInfo<Film> getFilmList(Film record) {
     //}
