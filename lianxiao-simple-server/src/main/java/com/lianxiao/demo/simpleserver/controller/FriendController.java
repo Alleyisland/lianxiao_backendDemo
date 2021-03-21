@@ -62,8 +62,8 @@ public class FriendController extends BaseController {
     }
     @GetMapping(value = "/reject", produces = {"application/json;charset=UTF-8"})
     @ApiOperation(value = "拒绝请求", notes = "拒绝请求")
-    public String reject(){
-        int status = 2;
+    public String reject(@ApiParam(name = "apply_id", value = "请求id",required = true) @RequestParam(required = true) long apply_id){
+        applyService.updateStatusToReject(apply_id);
         return FastJsonUtils.resultSuccess(200, "拒绝接受好友请求", null);
     }
 

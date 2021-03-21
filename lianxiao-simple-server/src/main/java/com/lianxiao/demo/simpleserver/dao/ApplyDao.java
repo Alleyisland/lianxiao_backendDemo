@@ -16,4 +16,6 @@ public interface ApplyDao extends MyMapper<Apply> {
 
     @Update(value = "update apply set status=1 where applyid=#{applyid}")
     void updateStatusPass(long applyid);
+    @Update(value = "update apply set status=2 where applyid=#{applyid}")
+    void updateStatusReject(long applyid);
 }

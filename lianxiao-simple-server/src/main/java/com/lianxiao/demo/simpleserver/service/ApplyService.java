@@ -32,4 +32,7 @@ public class ApplyService extends BaseServiceImpl<Apply> {
     public void updateStatusToPass(long applyid) {
         applyDao.updateStatusPass(applyid);
     }
+    public void updateStatusToReject(long applyid) {
+        applyDao.updateStatusReject(applyid);
+    }
 }
