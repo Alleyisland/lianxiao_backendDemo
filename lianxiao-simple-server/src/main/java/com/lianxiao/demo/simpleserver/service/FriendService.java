@@ -18,12 +18,14 @@ public class FriendService extends BaseServiceImpl<Friend> {
     public Mapper<Friend> getMapper() {
         return friendDao;
     }
-    public List<Friend> showAllrelation() {
-        return friendDao.selectAll();
+
+    public List<Friend> showAllFriends(long role_a_id) {
+        List<Friend> res=friendDao.selectAllFriend(role_a_id);
+        return res;
     }
 
     public void addrelation(Friend friendrelation) {
-        friendDao.insertrelation(friendrelation);
+        friendDao.insertRelation(friendrelation);
     }
     public void deleteById(long relationid) {
         friendDao.deleteById(relationid);

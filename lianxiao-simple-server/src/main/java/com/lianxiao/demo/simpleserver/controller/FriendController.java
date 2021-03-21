@@ -26,6 +26,14 @@ public class FriendController extends BaseController {
     @Autowired
     private ApplyService applyService;
 
+    @GetMapping(value = "/all", produces = {"application/json;charset=UTF-8"})
+    @ApiOperation(value = "全部好友", notes = "全部好友")
+    public String all(@ApiParam(name = "role_a_id", value = "查找好友的用户id",required = true) @RequestParam(required = true) long role_a_id) {
+        List<Friend> result = friendService.showAllFriends(role_a_id);
+        System.out.println(result.toString());
+        return FastJsonUtils.resultSuccess(200, "拉取好友列表成功", result);
+    }
+
     @GetMapping(value = "/request", produces = {"application/json;charset=UTF-8"})
     @ApiOperation(value = "发送请求", notes = "发送好友请求")
     public String request(@ApiParam(name = "apply_type", value = "好友请求类型",required = true) @RequestParam(required = true) int apply_type,

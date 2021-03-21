@@ -45,17 +45,17 @@ public class Friend extends BaseEntity {
         this.relationid = relationid;
     }
 
-    public int getRole_a_id(int role_a_id) { return role_a_id; }
+    public long getRole_a_id(long role_a_id) { return role_a_id; }
 
-    public void setRole_a_id(int role_a_id) {
+    public void setRole_a_id(long role_a_id) {
         this.role_a_id = role_a_id;
     }
 
-    public long getRole_b_id(int role_b_id) {
+    public long getRole_b_id(long role_b_id) {
         return role_b_id;
     }
 
-    public void setRole_b_id(int role_b_id) {
+    public void setRole_b_id(long role_b_id) {
         this.role_b_id = role_b_id;
     }
 
