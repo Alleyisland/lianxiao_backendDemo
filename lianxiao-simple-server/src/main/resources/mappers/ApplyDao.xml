@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lianxiao.demo.simpleserver.dao.ApplyDao">
+    <resultMap id="ApplyMap" type="com.lianxiao.demo.simpleserver.model.Apply">
+        <id column="applyid" jdbcType="BIGINT" property="applyid"/>
+        <result column="apply_type" jdbcType="INTEGER" property="apply_type"/>
+        <result column="source_uid" jdbcType="BIGINT" property="source_uid"/>
+        <result column="friend_id" jdbcType="BIGINT" property="friend_id"/>
+        <result column="group_id" jdbcType="BIGINT" property="group_id"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+    </resultMap>
+    <insert id="insertApply" parameterType="Apply">
+        INSERT INTO apply(applyid,apply_type,source_uid,friend_id,group_id,status) value (#{applyid},#{apply_type},#{source_uid},#{friend_id},#{group_id},#{status})
+    </insert>
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM apply where applyid=#{applyid}
+    </delete>
+</mapper>
