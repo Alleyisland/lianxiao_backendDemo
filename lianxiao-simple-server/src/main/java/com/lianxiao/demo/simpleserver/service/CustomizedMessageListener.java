@@ -17,6 +17,5 @@ public class CustomizedMessageListener implements RocketMQListener<ChatMessage> 
 
     //任意处理单条消息的逻辑
     public void anyAction(ChatMessage message) {
-        System.out.println(("消费到消息 => " + message.toString()));
     }
 }

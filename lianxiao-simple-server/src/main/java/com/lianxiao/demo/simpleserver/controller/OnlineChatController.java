@@ -47,19 +47,18 @@ public class OnlineChatController {
         this.session = session;
         this.id = id;
         websockets.put(id, this);
-        System.out.println("ws连接成功");
     }
 
     @OnClose
     public void onClose() {
         websockets.remove(id);
-        System.out.println("ws断开成功");
+
     }
 
     @OnMessage
     public void OnMessage(String json) {
         ChatMessage message = JSONObject.parseObject(json, ChatMessage.class);
-        System.out.println(message);
+
         privateSend(message);
     }
 
@@ -89,7 +88,6 @@ public class OnlineChatController {
             payload.put("content", msg);
             Message offLineMessage = MessageBuilder.withPayload(payload).setHeader("KEYS", mqKey).build();
             SendResult result = realSend(topic_name, mqTag, offLineMessage, receiverId);
-            System.out.println(result);
         }
     }
 

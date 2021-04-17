@@ -1,6 +1,5 @@
 server:
   port: 5555
-
 spring:
   profiles:
     active: native

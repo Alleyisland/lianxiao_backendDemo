@@ -93,4 +93,15 @@ public class Student extends BaseEntity {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "uid=" + uid +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
+    }
 }

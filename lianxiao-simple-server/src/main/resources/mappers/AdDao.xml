@@ -6,7 +6,4 @@
         <result column="gid" jdbcType="BIGINT" property="gid"/>
         <result column="word" jdbcType="VARCHAR" property="word"/>
     </resultMap>
-    <delete id="deleteAd" parameterType="long">
-        DELETE FROM ad where aid = #{aid}
-    </delete>
 </mapper>

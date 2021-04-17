@@ -14,19 +14,4 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class BaseController {
 
-    @Autowired
-    private IdGeneratorUtils idGeneratorUtils;
-
-    public IdGeneratorUtils getIdGeneratorUtils() {
-        return idGeneratorUtils;
-    }
-
-//    /**
-//     * 失败测试
-//     */
-//    @GetMapping(value = "/error", produces = {"application/json;charset=UTF-8"})
-//    public String error() {
-//        return FastJsonUtils.resultError(200, "失败", null);
-//    }
-
 }

@@ -3,6 +3,9 @@ package com.lianxiao.demo.simpleserver.service;
 import com.lianxiao.demo.simpleserver.base.BaseServiceImpl;
 import com.lianxiao.demo.simpleserver.dao.StudentDao;
 import com.lianxiao.demo.simpleserver.model.Student;
+import com.lianxiao.demo.simpleserver.util.IdGeneratorUtils;
+import com.lianxiao.demo.simpleserver.util.TokenUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.common.Mapper;
 
@@ -15,8 +18,12 @@ import java.util.List;
 
 @Service
 public class StudentService extends BaseServiceImpl<Student> {
+
     @Resource
     private StudentDao studentDao;
+
+    @Autowired
+    private IdGeneratorUtils idGeneratorUtils;
 
     @Override
     public Mapper<Student> getMapper() {
@@ -30,9 +37,10 @@ public class StudentService extends BaseServiceImpl<Student> {
         return studentDao.selectAll();
     }
 
-    public void addStudent(Student student) {
-        studentDao.insertStudent(student);
-
+    public long addStudent(Student studentInfo) {
+        studentInfo.setUid(idGeneratorUtils.nextId());
+        studentDao.insertStudent(studentInfo);
+        return studentInfo.getUid();
     }
 
     public List<Student> searchByUid(long uid) {
@@ -50,9 +58,30 @@ public class StudentService extends BaseServiceImpl<Student> {
         return studentDao.selectByPhone(phone);
     }
 
-    public void update(Student newStu) {
+    public long update(Student newStu) {
         studentDao.updateByUid(newStu);
+        return newStu.getUid();
     }
     //public PageInfo<Film> getFilmList(Film record) {
     //}
+
+    public String generateJwtToken(String phone){
+        return TokenUtils.generateJwtToken(phone);
+    }
+
+    public String login_v3(Student studentInfo) {
+        if(auth(studentInfo)) {
+            return generateJwtToken(studentInfo.getPhone());
+        }
+        else{
+            return null;
+        }
+    }
+
+    public List<Student> search(Long uid, String description) {
+        if (uid != null)
+            return searchByUid(uid);
+        else
+            return searchByDescription(description);
+    }
 }

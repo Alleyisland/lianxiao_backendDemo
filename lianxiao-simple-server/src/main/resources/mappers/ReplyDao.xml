@@ -7,11 +7,4 @@
         <result column="uid" jdbcType="BIGINT" property="uid"/>
         <result column="content" jdbcType="VARCHAR" property="content"/>
     </resultMap>
-
-    <insert id="insertReply" parameterType="Reply">
-        INSERT INTO reply (rid, pid, uid, content) Value(#{rid},#{pid},#{uid},#{content})
-    </insert>
-    <delete id="deleteReply" parameterType="long">
-        DELETE FROM reply where rid = #{rid}
-    </delete>
 </mapper>

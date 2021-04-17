@@ -9,10 +9,4 @@
         <result column="group_id" jdbcType="BIGINT" property="group_id"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
     </resultMap>
-    <insert id="insertApply" parameterType="Apply">
-        INSERT INTO apply(applyid,apply_type,source_uid,friend_id,group_id,status) value (#{applyid},#{apply_type},#{source_uid},#{friend_id},#{group_id},#{status})
-    </insert>
-    <delete id="deleteById" parameterType="long">
-        DELETE FROM apply where applyid=#{applyid}
-    </delete>
 </mapper>

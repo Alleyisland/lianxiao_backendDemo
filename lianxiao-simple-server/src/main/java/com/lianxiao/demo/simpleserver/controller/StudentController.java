@@ -1,9 +1,12 @@
 package com.lianxiao.demo.simpleserver.controller;
 
 import com.lianxiao.demo.simpleserver.base.BaseController;
+import com.lianxiao.demo.simpleserver.dto.StudentDto;
 import com.lianxiao.demo.simpleserver.model.Student;
 import com.lianxiao.demo.simpleserver.service.StudentService;
 import com.lianxiao.demo.simpleserver.util.FastJsonUtils;
+import com.lianxiao.demo.simpleserver.util.IdGeneratorUtils;
+import com.lianxiao.demo.simpleserver.util.TokenUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -11,13 +14,12 @@ import net.bytebuddy.utility.RandomString;
 import org.bouncycastle.crypto.prng.RandomGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,29 +34,26 @@ import java.util.Random;
 @RequestMapping("/student")
 @Api(description = "用户接口")
 public class StudentController extends BaseController {
+
     @Autowired
     private StudentService studentService;
 
     @Autowired
     private RestTemplate restTemplate;
 
-    @Value("${redis.key.prefix.authCode}")
-    private String REDIS_KEY_PREFIX_AUTH_CODE;
-    //过期时间60秒
-    @Value("${redis.key.expire.authCode}")
-    private Long AUTH_CODE_EXPIRE_SECONDS;
-
     /**
      * 列表
      */
-    @GetMapping(value = "/all", produces = {"application/json;charset=UTF-8"})
+    @GetMapping(value = "/all")
+    @ResponseBody
     @ApiOperation(value = "全部用户", notes = "全部用户")
     public String all(){
         List<Student> result = studentService.showAllStudent();
         return FastJsonUtils.resultSuccess(200, "拉取学生列表成功", result);
     }
 
-    @GetMapping("/register_or_login/send_auth_code")
+    @PostMapping(value="/register_or_login/send_auth_code")
+    @ResponseBody
     @ApiOperation(value = "获取验证码", notes = "注册、登录获取验证码")
     public String registerOrLoginStepOne(@ApiParam(name = "phone", value = "手机号",required = true)
                                                  @RequestParam String phone) {
@@ -65,7 +64,8 @@ public class StudentController extends BaseController {
         else return FastJsonUtils.resultSuccess(200, "验证码发送失败", null);
     }
 
-    @PostMapping("/register_or_login/verify_auth_code")
+    @PostMapping(value = "/register_or_login/verify_auth_code")
+    @ResponseBody
     @ApiOperation(value = "验证验证码", notes = "验证验证码")
     public String registerOrLoginStepTwo(@ApiParam(name = "phone", value = "手机号",required = true)@RequestParam String phone,
                                              @ApiParam(name = "code", value = "验证码",required = true)@RequestParam String code) {
@@ -81,12 +81,10 @@ public class StudentController extends BaseController {
             }
             //注册
             else{
-                long uid= getIdGeneratorUtils().nextId();
-                Student stu=new Student();
-                stu.setUid(uid);
-                stu.setPhone(phone);
-                studentService.addStudent(stu);//插入
-                map.put("uid",stu.getUid());
+                Student stuInfo=new Student();
+                stuInfo.setPhone(phone);
+                long uid=studentService.addStudent(stuInfo);//插入
+                map.put("uid",uid);
                 return FastJsonUtils.resultSuccess(200, "验证通过,用户注册成功", map);
             }
         }
@@ -147,54 +145,59 @@ public class StudentController extends BaseController {
         httpHeaders.set("X-Bmob-Application-Id","f397a2b89250b22bd4482c8a19adcb20");
         httpHeaders.set("X-Bmob-REST-API-Key","3c61f80666e631db54adb751658ce775");
 
-        HttpEntity<Map<String, String>> httpEntity = new HttpEntity<>(jsonMap, httpHeaders);
-
-        return httpEntity;
+        return new HttpEntity<>(jsonMap, httpHeaders);
     }
 
-    @PostMapping("/login_v2")
+    @PostMapping(value = "/login/v2")
+    @ResponseBody
     @ApiOperation(value = "登录_v2", notes = "登录_v2")
     public String login(@ApiParam(name = "phone", value = "手机号",required = true)@RequestParam String phone,
                          @ApiParam(name = "password", value = "密码",required = true)@RequestParam String password) {
         Student stu=new Student();
         stu.setPhone(phone);
         stu.setPassword(password);
-        if(studentService.auth(stu))
-            return FastJsonUtils.resultSuccess(200, "用户登录成功", stu);
+        if(studentService.auth(stu)) {
+            String token=TokenUtils.generateJwtToken(phone);
+            Map<String,Object> map=new HashMap<>();
+            map.put("token",token);
+            return FastJsonUtils.resultSuccess(200, "用户登录成功", map);
+        }
         else
             return FastJsonUtils.resultSuccess(200, "用户登录失败", null);
     }
 
-    @PostMapping("/update_info")
+    @PostMapping(value = "/login/v3")
+    @ResponseBody
+    public String login_v3(@RequestBody Student studentInfo){
+        String token=studentService.login_v3(studentInfo);
+        if(token!=null) {
+            Map<String,Object> map=new HashMap<>();
+            map.put("token",token);
+            return FastJsonUtils.resultSuccess(200, "用户登录成功", map);
+        }
+        else
+            return FastJsonUtils.resultSuccess(200, "用户登录失败", null);
+    }
+
+    @PostMapping(value = "/update_info")
+    @ResponseBody
     @ApiOperation(value = "修改用户信息", notes = "修改用户信息")
-    public String updateInfo(@ApiParam(name = "uid", value = "用户id",required = true)@RequestParam Long uid,
-                             @ApiParam(name = "name", value = "用户名")@RequestParam(required = false, defaultValue = "") String name,
-                             @ApiParam(name = "password", value = "密码")@RequestParam(required = false, defaultValue = "") String password,
-                             @ApiParam(name = "description", value = "用户描述")@RequestParam(required = false, defaultValue = "") String description
-                             ) {
-        Student newStu=studentService.searchByUid(uid).get(0);
-        if(!"".equals(name))
-            newStu.setName(name);
-        if(!"".equals(password))
-            newStu.setPassword(password);
-        if(!"".equals(description))
-            newStu.setDescription(description);
-        studentService.update(newStu);
-        return FastJsonUtils.resultSuccess(200, "修改成功", null);
+    public String updateInfo(@RequestBody Student newStuInfo) {
+        long uid=studentService.update(newStuInfo);
+        Map<String,Object> map=new HashMap<>();
+        map.put("uid",uid);
+        return FastJsonUtils.resultSuccess(200, "修改成功", map);
     }
 
     @GetMapping("/search")
+    @ResponseBody
     @ApiOperation(value = "查找用户", notes = "根据用户id/用户描述查找用户")
     public String search(@ApiParam(name = "uid", value = "用户id")@RequestParam(required = false) Long uid,
                          @ApiParam(name = "description", value = "用户描述")@RequestParam(required = false, defaultValue = "") String description) {
-        List<Student> students;
         if (uid == null && description.equals(""))
             return FastJsonUtils.resultSuccess(200, "请输入查询条件", null);
-        else if (uid != null)
-            students = studentService.searchByUid(uid);
-        else
-            students = studentService.searchByDescription(description);
-        return FastJsonUtils.resultSuccess(200, "用户查询成功", students);
+        List<Student> results=studentService.search(uid,description);
+        return FastJsonUtils.resultSuccess(200, "用户查询成功", results);
     }
 
 }

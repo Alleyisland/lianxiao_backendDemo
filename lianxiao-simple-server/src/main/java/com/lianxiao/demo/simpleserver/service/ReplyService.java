@@ -3,10 +3,13 @@ package com.lianxiao.demo.simpleserver.service;
 import com.lianxiao.demo.simpleserver.base.BaseServiceImpl;
 import com.lianxiao.demo.simpleserver.dao.ReplyDao;
 import com.lianxiao.demo.simpleserver.model.Reply;
+import com.lianxiao.demo.simpleserver.util.IdGeneratorUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.common.Mapper;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,6 +17,9 @@ public class ReplyService extends BaseServiceImpl<Reply> {
 
     @Resource
     ReplyDao replyDao;
+
+    @Autowired
+    private IdGeneratorUtils idGeneratorUtils;
 
     @Override
     public Mapper<Reply> getMapper() {
@@ -28,8 +34,10 @@ public class ReplyService extends BaseServiceImpl<Reply> {
     }
 
 
-    public void addReply(Reply reply) {
-        replyDao.insertReply(reply);
+    public long addReply(Reply replyInfo) {
+        replyInfo.setRid(idGeneratorUtils.nextId());
+        replyDao.insertReply(replyInfo);
+        return replyInfo.getRid();
     }
 
     public void deleteReply(long rid) {
@@ -51,5 +59,21 @@ public class ReplyService extends BaseServiceImpl<Reply> {
 
     public List<Reply> searchByUid(Long uid) {
         return replyDao.selectByUid(uid);
+    }
+
+    public List<Reply> search(Long rid, Long uid, Long pid) {
+        if (rid == null && pid == null && uid == null)
+            return new ArrayList<>();
+        else if (rid != null) {
+            List<Reply> list=new ArrayList<>();
+            Reply reply=searchByRid(rid);
+            if(reply!=null){
+                list.add(reply);
+            }
+            return list;
+        } else if (pid != null)
+            return searchByPid(pid);
+        else
+            return searchByUid(uid);
     }
 }

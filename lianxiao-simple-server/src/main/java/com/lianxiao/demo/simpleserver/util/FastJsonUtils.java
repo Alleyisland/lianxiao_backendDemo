@@ -73,7 +73,7 @@ public class FastJsonUtils {
 
         Map<String,Object> map = JSON.parseObject(jsonStr, Map.class);
 
-        return map==null?new HashMap():map;
+        return map==null?new HashMap<>():map;
 
     }
 

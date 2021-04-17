@@ -2,6 +2,7 @@ package com.lianxiao.demo.simpleserver.service;
 
 import com.lianxiao.demo.simpleserver.dao.PostRepository;
 import com.lianxiao.demo.simpleserver.model.Post;
+import com.lianxiao.demo.simpleserver.util.TransformUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -48,8 +49,8 @@ public class PostService implements ElasticService<Post> {
     }
 
     @Override
-    public Iterator<Post> findAll() {
-        return postRepository.findAll().iterator();
+    public List<Post> findAll() {
+        return TransformUtils.Iter2List(postRepository.findAll().iterator());
     }
 
     /*@Override

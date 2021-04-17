@@ -1,11 +1,25 @@
 package com.lianxiao.demo.simpleserver.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 public class ChatMessage {
+
+    @JSONField(ordinal = 1)
     long id;
+
+    @JSONField(ordinal = 2)
     int type;
+
+    @JSONField(ordinal = 3)
     long senderId;
+
+    @JSONField(ordinal = 4)
     long receiverId;
+
+    @JSONField(ordinal = 5)
     long datetime;
+
+    @JSONField(ordinal = 6)
     String content;
 
     public long getId() {
@@ -59,11 +73,11 @@ public class ChatMessage {
     @Override
     public String toString() {
         return "ChatMessage{" +
-                "msg_id=" + id +
+                "id=" + id +
                 ", type=" + type +
-                ", date_time=" + datetime +
-                ", sender_id=" + senderId +
-                ", receiver_id=" + receiverId +
+                ", senderId=" + senderId +
+                ", receiverId=" + receiverId +
+                ", datetime=" + datetime +
                 ", content='" + content + '\'' +
                 '}';
     }

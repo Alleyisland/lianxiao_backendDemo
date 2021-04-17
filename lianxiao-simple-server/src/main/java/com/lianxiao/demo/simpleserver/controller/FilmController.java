@@ -30,10 +30,9 @@ public class FilmController extends BaseController {
     /**
      * 列表
      */
-    @GetMapping(value = "/list", produces = {"application/json;charset=UTF-8"})
+    @GetMapping(value = "/list")
     public String list(@RequestParam Integer left, @RequestParam Integer right) {
         List<Film> result = filmService.showFilmByInterval(left, right);
-        System.out.println(result.size());
         return FastJsonUtils.resultSuccess(200, "拉取列表成功", result);
     }
 

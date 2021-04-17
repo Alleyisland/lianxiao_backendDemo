@@ -1,6 +1,7 @@
 package com.lianxiao.demo.simpleserver.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lianxiao.demo.simpleserver.base.BaseEntity;
 
 import javax.persistence.Column;
@@ -55,16 +56,16 @@ public class Goods extends BaseEntity {
      */
     @Column(name = "`pic_uri`")
     @JSONField(ordinal = 7)
-    private String pic_uri;
+    private String picUri;
 
-    public Goods(long gid, int gtype, long uid, String gname, String gdescription, double price, String pic_uri) {
+    public Goods(long gid, int gtype, long uid, String gname, String gdescription, double price, String picUri) {
         this.gid = gid;
         this.gtype = gtype;
         this.uid = uid;
         this.gname = gname;
         this.gdescription = gdescription;
         this.price = price;
-        this.pic_uri = pic_uri;
+        this.picUri = picUri;
     }
 
     public Goods() {
@@ -119,12 +120,24 @@ public class Goods extends BaseEntity {
         this.price = price;
     }
 
-    public String getPic_uri() {
-        return pic_uri;
+    public String getPicUri() {
+        return picUri;
     }
 
-    public void setPic_uri(String pic_uri) {
-        this.pic_uri = pic_uri;
+    public void setPicUri(String picUri) {
+        this.picUri = picUri;
     }
 
+    @Override
+    public String toString() {
+        return "Goods{" +
+                "gid=" + gid +
+                ", gtype=" + gtype +
+                ", uid=" + uid +
+                ", gname='" + gname + '\'' +
+                ", gdescription='" + gdescription + '\'' +
+                ", price=" + price +
+                ", picUri='" + picUri + '\'' +
+                '}';
+    }
 }

@@ -2,12 +2,15 @@ package com.lianxiao.demo.simpleserver.model;
 
 import com.alibaba.fastjson.annotation.JSONType;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import java.util.Date;
+
 @Document(indexName = "post", replicas = 0)
-@JSONType(orders = {"id", "type", "title", "content"})
+@JSONType(orders = {"id", "type", "owner_id" ,"title", "content"})
 public class Post {
     @Id
     private Long id;
@@ -15,15 +18,23 @@ public class Post {
     @Field(type = FieldType.Integer)
     private Integer type;
 
+    @Field(type = FieldType.Long)
+    private String owner_id;
+
+    @Field(type = FieldType.Date,format = DateFormat.basic_date_time_no_millis)
+    private Date date;
+
     @Field(type = FieldType.Text)
     private String title;
 
     @Field(type = FieldType.Text, analyzer = "ik_max_word")
     private String content;
 
-    public Post(Long id, Integer type, String title, String content) {
+    public Post(Long id, Integer type, String owner_id, Date date, String title, String content) {
         this.id = id;
         this.type = type;
+        this.owner_id = owner_id;
+        this.date = date;
         this.title = title;
         this.content = content;
     }
@@ -62,5 +73,33 @@ public class Post {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getOwner() {
+        return owner_id;
+    }
+
+    public void setOwner(String owner_id) {
+        this.owner_id = owner_id;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", type=" + type +
+                ", owner_id='" + owner_id + '\'' +
+                ", date=" + date +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                '}';
     }
 }

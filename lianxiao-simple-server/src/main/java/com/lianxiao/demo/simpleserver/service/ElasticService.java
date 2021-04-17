@@ -16,7 +16,7 @@ public interface ElasticService<T> {
 
     void saveAll(List<T> list);
 
-    Iterator<Post> findAll();
+    List<Post> findAll();
 
     //Page<Post> findByTitle(String title);
 

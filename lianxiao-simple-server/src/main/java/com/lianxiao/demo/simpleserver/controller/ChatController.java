@@ -18,10 +18,7 @@ import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
@@ -32,7 +29,7 @@ import java.util.*;
 public class ChatController {
     @Autowired
     private RocketMQTemplate rocketMQTemplate;
-    private static final Map<MessageQueue, Long> offsetTable = new HashMap<MessageQueue, Long>();
+    private static final Map<MessageQueue, Long> offsetTable = new HashMap<>();
     DefaultMQPullConsumer consumer = new DefaultMQPullConsumer("consumer_group");
 
     @PostConstruct
@@ -43,11 +40,12 @@ public class ChatController {
     /**
      * 普通消息投递
      */
-    @GetMapping("/send")
+    @PostMapping("/send")
+    @ResponseBody
     @ApiOperation(value = "发消息", notes = "发消息")
-    public String send(@ApiParam(name = "senderId", value = "发送者id",required = true) @RequestParam(required = true) long senderId,
-                       @ApiParam(name = "receiverId", value = "接收者id",required = true) @RequestParam(required = true) long receiverId,
-                       @ApiParam(name = "msg", value = "消息内容",required = true) @RequestParam(required = true) String msg) {
+    public String send(@ApiParam(name = "senderId", value = "发送者id",required = true) @RequestParam long senderId,
+                       @ApiParam(name = "receiverId", value = "接收者id",required = true) @RequestParam long receiverId,
+                       @ApiParam(name = "msg", value = "消息内容",required = true) @RequestParam String msg) {
         String topic_name = "chat_topic";
         String mqTag = "private_msg_to_" + receiverId;
         String mqKey = "private_msg_to_" + receiverId;
@@ -60,7 +58,6 @@ public class ChatController {
         payload.put("content", msg);
         Message message = MessageBuilder.withPayload(payload).setHeader("KEYS", mqKey).build();
         SendResult result = realSend(topic_name, mqTag, message, receiverId);
-        System.out.println(result);
         return "投递消息 => " + msg + " => 成功";
     }
 
@@ -79,8 +76,9 @@ public class ChatController {
      * 消息批量更新
      */
     @GetMapping("/update")
+    @ResponseBody
     @ApiOperation(value = "收取离线消息", notes = "收取离线消息")
-    public String update(@ApiParam(name = "receiverId", value = "接收者id",required = true) @RequestParam(required = true) long receiverId) throws Exception {
+    public String update(@ApiParam(name = "receiverId", value = "接收者id",required = true) @RequestParam long receiverId) throws Exception {
         List<ChatMessage> msgs = new ArrayList<>();
         String topic_name = "chat_topic";
         String mqTag = "private_msg_to_" + receiverId;
@@ -89,12 +87,9 @@ public class ChatController {
         consumer.setBrokerSuspendMaxTimeMillis(100L);
         for (MessageQueue mq : mqs) {
             if (mq.getQueueId() == String.valueOf(receiverId).hashCode() % 4) {
-                System.out.println("queue id is " + mq.getQueueId());
                 PullResult pullResult = consumer.pullBlockIfNotFound(mq, mqTag, getMessageQueueOffset(mq), 32);
-                System.out.println("当前mq" + mq.getQueueId() + "的offset:" + getMessageQueueOffset(mq));
                 if (pullResult.getPullStatus() == PullStatus.FOUND) {
                     List<MessageExt> messageExtList = pullResult.getMsgFoundList();
-                    System.out.println("读到" + messageExtList.size() + "条消息");
                     putMessageQueueOffset(mq, pullResult.getNextBeginOffset());
                     for (MessageExt m : messageExtList) {
                         ChatMessage message = JSONObject.parseObject(new String(m.getBody()), ChatMessage.class);

@@ -3,17 +3,7 @@
 <mapper namespace="com.lianxiao.demo.simpleserver.dao.FriendDao">
     <resultMap id="FriendMap" type="com.lianxiao.demo.simpleserver.model.Friend">
         <id column="relationid" jdbcType="BIGINT" property="relationid"/>
-        <result column="role_a_id" jdbcType="BIGINT" property="role_a_id"/>
-        <result column="role_b_id" jdbcType="BIGINT" property="role_b_id"/>
+        <result column="role_a_id" jdbcType="BIGINT" property="roleAId"/>
+        <result column="role_b_id" jdbcType="BIGINT" property="roleBId"/>
     </resultMap>
-    <select id="selectAllFriend" parameterType="long" resultMap="FriendMap">
-        select * from friend_relation where role_a_id=#{role_a_id}
-    </select>
-
-    <insert id="insertRelation" parameterType="Friend">
-        INSERT INTO friend_relation(relationid,role_a_id,role_b_id) value (#{relationid},#{role_a_id},#{role_b_id})
-    </insert>
-    <delete id="deleteById" parameterType="long">
-        DELETE FROM friend_relation where role_b_id=#{role_b_id}
-    </delete>
 </mapper>

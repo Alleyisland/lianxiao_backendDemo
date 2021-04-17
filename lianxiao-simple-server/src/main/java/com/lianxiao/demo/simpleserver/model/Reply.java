@@ -1,5 +1,6 @@
 package com.lianxiao.demo.simpleserver.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.lianxiao.demo.simpleserver.base.BaseEntity;
 
 import javax.persistence.Column;
@@ -9,15 +10,19 @@ import javax.persistence.Table;
 public class Reply extends BaseEntity {
 
     @Column(name = "`rid`")
+    @JSONField(ordinal = 1)
     private long rid;
 
     @Column(name = "`pid`")
+    @JSONField(ordinal = 2)
     private long pid;
 
     @Column(name = "`uid`")
+    @JSONField(ordinal = 3)
     private long uid;
 
     @Column(name = "`content`")
+    @JSONField(ordinal = 4)
     private String content;
 
     public Reply(long rid, long pid, long uid, String content) {
@@ -62,5 +67,13 @@ public class Reply extends BaseEntity {
         this.content = content;
     }
 
-
+    @Override
+    public String toString() {
+        return "Reply{" +
+                "rid=" + rid +
+                ", pid=" + pid +
+                ", uid=" + uid +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }

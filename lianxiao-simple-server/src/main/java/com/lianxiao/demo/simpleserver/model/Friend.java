@@ -1,6 +1,7 @@
 package com.lianxiao.demo.simpleserver.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lianxiao.demo.simpleserver.base.BaseEntity;
 
 import javax.persistence.Column;
@@ -19,18 +20,18 @@ public class Friend extends BaseEntity {
      */
     @Column(name = "`role_a_id`")
     @JSONField(ordinal = 2)
-    private long role_a_id;
+    private long roleAId;
     /**
      * role_b_id
      */
     @Column(name = "`role_b_id`")
     @JSONField(ordinal = 3)
-    private long role_b_id;
+    private long roleBId;
 
-    public Friend(long relationid, long role_a_id, long role_b_id) {
+    public Friend(long relationid, long roleAId, long roleBId) {
         this.relationid = relationid;
-        this.role_a_id = role_a_id;
-        this.role_b_id = role_b_id;
+        this.roleAId = roleAId;
+        this.roleBId = roleBId;
     }
 
 
@@ -45,26 +46,17 @@ public class Friend extends BaseEntity {
         this.relationid = relationid;
     }
 
-    public long getRole_a_id(long role_a_id) { return role_a_id; }
+    public long getRoleAId() { return roleAId; }
 
-    public void setRole_a_id(long role_a_id) {
-        this.role_a_id = role_a_id;
+    public void setRoleAId(long roleAId) {
+        this.roleAId = roleAId;
     }
 
-    public long getRole_b_id(long role_b_id) {
-        return role_b_id;
+    public long getRoleBId() {
+        return roleBId;
     }
 
-    public void setRole_b_id(long role_b_id) {
-        this.role_b_id = role_b_id;
-    }
-
-    @Override
-    public String toString() {
-        return "FriendRelation{" +
-                "relationid=" + relationid +
-                ", role_a_id=" + role_a_id +
-                ", role_b_id=" + role_b_id +
-                '}';
+    public void setRoleBId(long roleBId) {
+        this.roleBId = roleBId;
     }
 }

@@ -3,10 +3,13 @@ package com.lianxiao.demo.simpleserver.service;
 import com.lianxiao.demo.simpleserver.base.BaseServiceImpl;
 import com.lianxiao.demo.simpleserver.dao.GoodsDao;
 import com.lianxiao.demo.simpleserver.model.Goods;
+import com.lianxiao.demo.simpleserver.util.IdGeneratorUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.common.Mapper;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,9 +19,11 @@ public class GoodsService extends BaseServiceImpl<Goods> {
 
     @Override
     public Mapper<Goods> getMapper() {
-
         return goodsDao;
     }
+
+    @Autowired
+    private IdGeneratorUtils idGeneratorUtils;
 
     /**
      * 查询所有商品
@@ -27,8 +32,10 @@ public class GoodsService extends BaseServiceImpl<Goods> {
         return goodsDao.selectAll();
     }
 
-    public void addGoods(Goods goods) {
-        goodsDao.insertGoods(goods);
+    public long addGoods(Goods goodsInfo) {
+        goodsInfo.setGid(idGeneratorUtils.nextId());
+        goodsDao.insertGoods(goodsInfo);
+        return goodsInfo.getGid();
     }
 
     /**
@@ -54,5 +61,23 @@ public class GoodsService extends BaseServiceImpl<Goods> {
         if (result.size() != 1)
             return null;
         else return result.get(0);
+    }
+
+    public List<Goods> search(Long gid, String gname, Integer gtype) {
+        if(gid==null&&gname==null&&gtype==null)
+            return new ArrayList<>();
+        if (gid != null) {
+            List<Goods> list=new ArrayList<>();
+            Goods goods=searchByGid(gid);
+            if (goods!=null){
+                list.add(goods);
+            }
+            return list;
+        } else if (!gname.equals(""))
+            return searchByName(gname);
+        else if (gtype != null)
+            return searchByType(gtype);
+        else
+            return showAllGoods();
     }
 }
