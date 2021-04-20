@@ -3,10 +3,16 @@ package com.lianxiao.demo.simpleserver.utils;
 import com.alibaba.fastjson.JSON;
 import com.lianxiao.demo.simpleserver.exception.AppException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.connection.RedisZSetCommands.Tuple;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Component;
 
-import java.util.Set;
+import java.time.Instant;
+import java.util.*;
 
 @Component
 public class RedisUtils {
@@ -68,5 +74,35 @@ public class RedisUtils {
 
     public String num2Str(Object num){
         return num+"";
+    }
+
+    public void flushSet(Object key, Set<String> tags) {
+        RedisSerializer<String> serializer = redisTemplate.getStringSerializer();
+        redisTemplate.executePipelined(new RedisCallback<String>() {
+            @Override
+            public String doInRedis(RedisConnection connection) throws DataAccessException {
+                for (String tag : tags)
+                    connection.sAdd(serializer.serialize((String) key), serializer.serialize(tag));
+                return null;
+            }
+        }, serializer);
+    }
+
+    public Set<String> interSet(Object key1, Object key2) {
+        Set<Object> value=redisTemplate.opsForSet().intersect(key1,key2);
+        Set<String> res=new HashSet<>();
+        if(value!=null)
+            for(Object o:value)
+                res.add((String)o);
+        return res;
+    }
+
+    public Set<String> fetchSet(Object key) {
+        Set<Object> value=redisTemplate.opsForSet().members(key);
+        Set<String> res=new HashSet<>();
+        if(value!=null)
+            for(Object o:value)
+                res.add((String)o);
+        return res;
     }
 }

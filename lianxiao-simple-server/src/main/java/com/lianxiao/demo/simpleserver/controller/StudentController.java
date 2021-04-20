@@ -1,6 +1,7 @@
 package com.lianxiao.demo.simpleserver.controller;
 
 import com.lianxiao.demo.simpleserver.base.BaseController;
+import com.lianxiao.demo.simpleserver.dto.StudentDto;
 import com.lianxiao.demo.simpleserver.model.Student;
 import com.lianxiao.demo.simpleserver.service.StudentService;
 import com.lianxiao.demo.simpleserver.utils.FastJsonUtils;
@@ -16,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 学生控制层
@@ -181,7 +183,7 @@ public class StudentController extends BaseController {
         return FastJsonUtils.resultSuccess(200, "修改成功", map);
     }
 
-    @GetMapping("/search")
+    @GetMapping("/open/search")
     @ResponseBody
     @ApiOperation(value = "查找用户", notes = "根据用户id/用户描述查找用户")
     public String search(@ApiParam(name = "uid", value = "用户id")@RequestParam(required = false) Long uid,
@@ -190,6 +192,34 @@ public class StudentController extends BaseController {
             return FastJsonUtils.resultSuccess(200, "请输入查询条件", null);
         List<Student> results=studentService.search(uid,description);
         return FastJsonUtils.resultSuccess(200, "用户查询成功", results);
+    }
+
+    @PostMapping(value = "/update_interest_tags")
+    @ResponseBody
+    @ApiOperation(value = "更新用户兴趣标签", notes = "更新用户兴趣标签")
+    public String updateInterestTag(@RequestBody StudentDto stuInfo) {
+        long uid=stuInfo.getUid();
+        Set<String> tags=stuInfo.getTags();
+        studentService.updateInterestTags(uid,tags);
+        Map<String,Object> map=new HashMap<>();
+        map.put("status","ok");
+        return FastJsonUtils.resultSuccess(200, "更新兴趣标签成功", map);
+    }
+
+    @GetMapping(value = "/common_interest_tags")
+    @ResponseBody
+    @ApiOperation(value = "获取共同兴趣标签", notes = "获取共同兴趣标签")
+    public String commonInterestTag(@RequestParam Long uid1,@RequestParam Long uid2) {
+        Set<String> results=studentService.commonInterestTags(uid1,uid2);
+        return FastJsonUtils.resultSuccess(200, "获取共同兴趣标签成功", results);
+    }
+
+    @GetMapping(value = "/open/interest_tags")
+    @ResponseBody
+    @ApiOperation(value = "查看用户兴趣标签", notes = "查看用户兴趣标签")
+    public String commonInterestTag(@RequestParam Long uid) {
+        Set<String> results=studentService.fetchInterestTags(uid);
+        return FastJsonUtils.resultSuccess(200, "获取兴趣标签成功", results);
     }
 
 }

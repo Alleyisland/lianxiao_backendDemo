@@ -3,24 +3,31 @@ package com.lianxiao.demo.simpleserver.service;
 import com.lianxiao.demo.simpleserver.model.Student;
 
 import java.util.List;
+import java.util.Set;
 
 public interface StudentService {
-    public List<Student> showAllStudent();
+    List<Student> showAllStudent();
 
-    public long addStudent(Student studentInfo);
+    long addStudent(Student studentInfo);
 
-    public List<Student> searchByUid(long uid);
+    List<Student> searchByUid(long uid);
 
-    public List<Student> searchByDescription(String description);
+    List<Student> searchByDescription(String description);
 
-    public boolean auth(Student stu);
-    public List<Student> SelectByPhone(String phone);
+    boolean auth(Student stu);
+    List<Student> SelectByPhone(String phone);
 
-    public long update(Student newStu);
+    long update(Student newStu);
 
-    public String generateJwtToken(String phone);
+    String generateJwtToken(String phone);
 
-    public String login_v3(Student studentInfo) ;
+    String login_v3(Student studentInfo) ;
 
-    public List<Student> search(Long uid, String description);
+    List<Student> search(Long uid, String description);
+
+    void updateInterestTags(Long uid, Set<String> tags);
+
+    Set<String> commonInterestTags(Long uid1, Long uid2);
+
+    Set<String> fetchInterestTags(Long uid);
 }

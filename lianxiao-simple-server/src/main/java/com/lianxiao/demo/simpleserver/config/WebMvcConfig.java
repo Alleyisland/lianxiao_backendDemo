@@ -58,7 +58,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(createAuthenticationInterceptor())
                 .addPathPatterns("/student/**","/chat/**","/friends/**")
-                .excludePathPatterns("/student/login/*","/student/register_or_login/*");
+                .excludePathPatterns("/student/open/**","/student/login/*","/student/register_or_login/*");
     }
 
     @Override

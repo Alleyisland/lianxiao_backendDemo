@@ -5,6 +5,7 @@ import com.lianxiao.demo.simpleserver.dao.StudentDao;
 import com.lianxiao.demo.simpleserver.model.Student;
 import com.lianxiao.demo.simpleserver.service.StudentService;
 import com.lianxiao.demo.simpleserver.utils.IdGeneratorUtils;
+import com.lianxiao.demo.simpleserver.utils.RedisUtils;
 import com.lianxiao.demo.simpleserver.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import tk.mybatis.mapper.common.Mapper;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
 
 //import com.space.movie.moviespacesimpleserver.contants.Constant;
 //import com.space.movie.moviespacesimpleserver.util.EncryptUtil;
@@ -20,11 +22,15 @@ import java.util.List;
 @Service
 public class StudentServiceImpl extends BaseServiceImpl<Student> implements StudentService {
 
+    private static final String  INTEREST_TAG = "INTEREST_TAGS_";
     @Resource
     private StudentDao studentDao;
 
     @Autowired
     private IdGeneratorUtils idGeneratorUtils;
+
+    @Autowired
+    private RedisUtils redisUtils;
 
     @Override
     public Mapper<Student> getMapper() {
@@ -84,5 +90,21 @@ public class StudentServiceImpl extends BaseServiceImpl<Student> implements Stud
             return searchByUid(uid);
         else
             return searchByDescription(description);
+    }
+
+    public void updateInterestTags(Long uid, Set<String> tags) {
+        String key=INTEREST_TAG+uid;
+        redisUtils.flushSet(key,tags);
+    }
+
+    public Set<String> commonInterestTags(Long uid1, Long uid2) {
+        String key1=INTEREST_TAG+uid1;
+        String key2=INTEREST_TAG+uid2;
+        return redisUtils.interSet(key1,key2);
+    }
+
+    public Set<String> fetchInterestTags(Long uid) {
+        String key=INTEREST_TAG+uid;
+        return redisUtils.fetchSet(key);
     }
 }
