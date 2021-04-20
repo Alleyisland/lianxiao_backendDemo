@@ -1,4 +1,4 @@
-package com.lianxiao.demo.simpleserver.util;
+package com.lianxiao.demo.simpleserver.utils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
@@ -46,7 +46,7 @@ public class FastJsonUtils {
     }
 
     /**
-     * 返回分页列表json结果
+     * 返回列表json结果
      */
     public static String resultList(Integer code, String msg, Integer pageNo, Integer pageSize, Object data) {
         Map<String, Object> rs = new HashMap<>();

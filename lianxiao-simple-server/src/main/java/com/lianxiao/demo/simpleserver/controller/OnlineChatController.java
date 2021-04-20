@@ -1,6 +1,7 @@
 package com.lianxiao.demo.simpleserver.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lianxiao.demo.simpleserver.exception.AppException;
 import com.lianxiao.demo.simpleserver.model.ChatMessage;
 import org.apache.rocketmq.client.producer.MessageQueueSelector;
 import org.apache.rocketmq.client.producer.SendResult;
@@ -69,6 +70,7 @@ public class OnlineChatController {
                 websockets.get(message.getReceiverId()).session.getBasicRemote().sendText(JSONObject.toJSONString(message));
             } catch (IOException e) {
                 e.printStackTrace();
+                throw new AppException("-1","目标在线，但消息发送失败");
             }
         }
         //消息接收者离线,写入mq

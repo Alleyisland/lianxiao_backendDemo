@@ -1,7 +1,7 @@
 package com.lianxiao.demo.simpleserver.dao;
 
 import com.lianxiao.demo.simpleserver.model.Apply;
-import com.lianxiao.demo.simpleserver.util.MyMapper;
+import com.lianxiao.demo.simpleserver.utils.MyMapper;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;

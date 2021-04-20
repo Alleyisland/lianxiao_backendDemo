@@ -3,9 +3,9 @@ package com.lianxiao.demo.simpleserver.controller;
 import com.lianxiao.demo.simpleserver.base.BaseController;
 import com.lianxiao.demo.simpleserver.model.Post;
 import com.lianxiao.demo.simpleserver.service.PostService;
-import com.lianxiao.demo.simpleserver.util.FastJsonUtils;
-import com.lianxiao.demo.simpleserver.util.IdGeneratorUtils;
-import com.lianxiao.demo.simpleserver.util.TransformUtils;
+import com.lianxiao.demo.simpleserver.utils.FastJsonUtils;
+import com.lianxiao.demo.simpleserver.utils.IdGeneratorUtils;
+import com.lianxiao.demo.simpleserver.utils.TransformUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -50,6 +50,33 @@ public class PostController extends BaseController {
         Map<String, Object> result = new HashMap<>();
         result.put("postId", postId);
         return FastJsonUtils.resultSuccess(200, "发布帖子成功", result);
+    }
+
+
+    @PostMapping(value = "/thumb_up")
+    @ResponseBody
+    public String thumbUp(@RequestParam long pid) {
+        postService.thumbUp(pid);
+        Map<String, Object> result = new HashMap<>();
+        result.put("status", "ok");
+        return FastJsonUtils.resultSuccess(200, "set成功", result);
+    }
+
+    @GetMapping(value = "/get_thumb_up")
+    @ResponseBody
+    public String getThumbUp(@RequestParam long pid) {
+        int cnt=postService.getThumbUp(pid);
+        Map<String, Object> result = new HashMap<>();
+        result.put("status", "ok");
+        result.put("cnt", cnt);
+        return FastJsonUtils.resultSuccess(200, "set成功", result);
+    }
+
+    @GetMapping(value = "/get_hottest_post")
+    @ResponseBody
+    public String getHottestPost() {
+        Set<Object> results=postService.getTopKPost();
+        return FastJsonUtils.resultSuccess(200, "获取排行榜成功", results);
     }
 
     @GetMapping(value = "/search")

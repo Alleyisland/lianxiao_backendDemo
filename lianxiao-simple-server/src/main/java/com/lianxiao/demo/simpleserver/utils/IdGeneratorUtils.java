@@ -1,4 +1,4 @@
-package com.lianxiao.demo.simpleserver.util;
+package com.lianxiao.demo.simpleserver.utils;
 
 import org.springframework.stereotype.Component;
 

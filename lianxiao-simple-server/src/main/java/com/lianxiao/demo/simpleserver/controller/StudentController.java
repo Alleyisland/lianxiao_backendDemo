@@ -1,29 +1,21 @@
 package com.lianxiao.demo.simpleserver.controller;
 
 import com.lianxiao.demo.simpleserver.base.BaseController;
-import com.lianxiao.demo.simpleserver.dto.StudentDto;
 import com.lianxiao.demo.simpleserver.model.Student;
 import com.lianxiao.demo.simpleserver.service.StudentService;
-import com.lianxiao.demo.simpleserver.util.FastJsonUtils;
-import com.lianxiao.demo.simpleserver.util.IdGeneratorUtils;
-import com.lianxiao.demo.simpleserver.util.TokenUtils;
+import com.lianxiao.demo.simpleserver.utils.FastJsonUtils;
+import com.lianxiao.demo.simpleserver.utils.TokenUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import net.bytebuddy.utility.RandomString;
-import org.bouncycastle.crypto.prng.RandomGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 /**
  * 学生控制层

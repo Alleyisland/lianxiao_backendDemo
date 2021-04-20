@@ -2,7 +2,7 @@ package com.lianxiao.demo.simpleserver.Interceptor;
 
 import com.auth0.jwt.interfaces.Claim;
 import com.lianxiao.demo.simpleserver.exception.AppException;
-import com.lianxiao.demo.simpleserver.util.TokenUtils;
+import com.lianxiao.demo.simpleserver.utils.TokenUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;

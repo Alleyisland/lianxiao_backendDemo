@@ -1,11 +1,9 @@
 package com.lianxiao.demo.simpleserver.controller;
 
 import com.lianxiao.demo.simpleserver.base.BaseController;
-import com.lianxiao.demo.simpleserver.dto.GoodsDto;
 import com.lianxiao.demo.simpleserver.model.Goods;
 import com.lianxiao.demo.simpleserver.service.GoodsService;
-import com.lianxiao.demo.simpleserver.util.FastJsonUtils;
-import com.lianxiao.demo.simpleserver.util.IdGeneratorUtils;
+import com.lianxiao.demo.simpleserver.utils.FastJsonUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

@@ -1,13 +1,12 @@
 package com.lianxiao.demo.simpleserver.dao;
 
 import com.lianxiao.demo.simpleserver.model.Student;
-import com.lianxiao.demo.simpleserver.util.MyMapper;
+import com.lianxiao.demo.simpleserver.utils.MyMapper;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import java.util.Collection;
 import java.util.List;
 
 public interface StudentDao extends MyMapper<Student> {

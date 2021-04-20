@@ -1,7 +1,7 @@
 package com.lianxiao.demo.simpleserver.dao;
 
 import com.lianxiao.demo.simpleserver.model.Film;
-import com.lianxiao.demo.simpleserver.util.MyMapper;
+import com.lianxiao.demo.simpleserver.utils.MyMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

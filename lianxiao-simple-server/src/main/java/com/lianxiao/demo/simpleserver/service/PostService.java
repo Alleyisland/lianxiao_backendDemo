@@ -1,80 +1,37 @@
 package com.lianxiao.demo.simpleserver.service;
 
-import com.lianxiao.demo.simpleserver.dao.PostRepository;
 import com.lianxiao.demo.simpleserver.model.Post;
-import com.lianxiao.demo.simpleserver.util.TransformUtils;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
 import java.util.List;
-
-import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
+import java.util.Set;
 
 @Service("elasticService")
-public class PostService implements ElasticService<Post> {
-
-    @Autowired
-    private ElasticsearchRestTemplate elasticsearchTemplate;
-    @Autowired
-    private PostRepository postRepository;
-
-    private final Pageable pageable = PageRequest.of(0, 10);
+public interface PostService extends ElasticService<Post> {
 
     @Override
-    public void createIndex() {
-        elasticsearchTemplate.createIndex(Post.class);
-    }
+    void createIndex();
 
     @Override
-    public void deleteIndex(String index) {
-        elasticsearchTemplate.deleteIndex(index);
-    }
+    void deleteIndex(String index);
 
     @Override
-    public void save(Post post) {
-        postRepository.save(post);
-    }
+    void save(Post post);
 
     @Override
-    public void saveAll(List<Post> list) {
-        postRepository.saveAll(list);
-    }
+    void saveAll(List<Post> list);
 
     @Override
-    public List<Post> findAll() {
-        return TransformUtils.Iter2List(postRepository.findAll().iterator());
-    }
-
-    /*@Override
-    public Page<Post> findByTitle(String title) {
-        return elasticRepository.findByTitle(title,pageable);
-    }*/
+    List<Post> findAll();
 
     @Override
-    public Page<Post> query(String keyword) {
-        if (StringUtils.isEmpty(keyword)) {
-            return postRepository.findAll(pageable);
-        }
-        NativeSearchQuery builder = new NativeSearchQueryBuilder()
-                .withQuery(matchQuery("title", keyword))
-                .withQuery(matchQuery("content", keyword))
-                .withPageable(pageable)
-                .build();
-        return postRepository.search(builder);
-    }
+    Page<Post> query(String keyword);
 
-    /*@Override
-    public Page<Post> query(String keyword) {
-        return elasticRepository.findByContent(keyword,pageable);
-    }*/
+    void thumbUp(long pid);
+
+    int getThumbUp(long pid);
+    Set<Object> getTopKPost();
 }
 
 

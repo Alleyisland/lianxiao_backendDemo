@@ -32,6 +32,9 @@ public class ChatController {
     private static final Map<MessageQueue, Long> offsetTable = new HashMap<>();
     DefaultMQPullConsumer consumer = new DefaultMQPullConsumer("consumer_group");
 
+    public static final String CHAT_TOPIC="chat_topic";
+    public static final String PRIVATE_MSG_PREFIX="private_msg_to_";
+
     @PostConstruct
     public void init() throws MQClientException {
         consumer.start();
@@ -46,9 +49,9 @@ public class ChatController {
     public String send(@ApiParam(name = "senderId", value = "发送者id",required = true) @RequestParam long senderId,
                        @ApiParam(name = "receiverId", value = "接收者id",required = true) @RequestParam long receiverId,
                        @ApiParam(name = "msg", value = "消息内容",required = true) @RequestParam String msg) {
-        String topic_name = "chat_topic";
-        String mqTag = "private_msg_to_" + receiverId;
-        String mqKey = "private_msg_to_" + receiverId;
+        String topic_name = CHAT_TOPIC;
+        String mqTag = PRIVATE_MSG_PREFIX + receiverId;
+        String mqKey = PRIVATE_MSG_PREFIX + receiverId;
         HashMap<String, Object> payload = new HashMap<>();
         payload.put("id", new Random().nextInt(100));
         payload.put("type", 1);
@@ -80,8 +83,8 @@ public class ChatController {
     @ApiOperation(value = "收取离线消息", notes = "收取离线消息")
     public String update(@ApiParam(name = "receiverId", value = "接收者id",required = true) @RequestParam long receiverId) throws Exception {
         List<ChatMessage> msgs = new ArrayList<>();
-        String topic_name = "chat_topic";
-        String mqTag = "private_msg_to_" + receiverId;
+        String topic_name = CHAT_TOPIC;
+        String mqTag = PRIVATE_MSG_PREFIX + receiverId;
         Set<MessageQueue> mqs = consumer.fetchSubscribeMessageQueues(topic_name);
         consumer.setConsumerPullTimeoutMillis(100L);
         consumer.setBrokerSuspendMaxTimeMillis(100L);

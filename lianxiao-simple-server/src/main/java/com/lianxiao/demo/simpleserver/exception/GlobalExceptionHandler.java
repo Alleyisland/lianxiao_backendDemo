@@ -1,16 +1,14 @@
 package com.lianxiao.demo.simpleserver.exception;
 
-import com.lianxiao.demo.simpleserver.util.FastJsonUtils;
+import com.lianxiao.demo.simpleserver.utils.FastJsonUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.servlet.http.HttpServletRequest;
-import java.nio.charset.StandardCharsets;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {

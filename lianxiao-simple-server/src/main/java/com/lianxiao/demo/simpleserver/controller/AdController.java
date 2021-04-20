@@ -3,7 +3,7 @@ package com.lianxiao.demo.simpleserver.controller;
 import com.lianxiao.demo.simpleserver.base.BaseController;
 import com.lianxiao.demo.simpleserver.model.Ad;
 import com.lianxiao.demo.simpleserver.service.AdService;
-import com.lianxiao.demo.simpleserver.util.FastJsonUtils;
+import com.lianxiao.demo.simpleserver.utils.FastJsonUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

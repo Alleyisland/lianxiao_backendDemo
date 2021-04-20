@@ -1,4 +1,4 @@
-package com.lianxiao.demo.simpleserver.service;
+package com.lianxiao.demo.simpleserver.service.other;
 
 import com.lianxiao.demo.simpleserver.base.BaseServiceImpl;
 import com.lianxiao.demo.simpleserver.dao.FilmDao;

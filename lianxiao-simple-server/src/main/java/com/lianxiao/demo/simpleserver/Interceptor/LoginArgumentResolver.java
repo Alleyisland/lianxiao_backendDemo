@@ -2,8 +2,7 @@ package com.lianxiao.demo.simpleserver.Interceptor;
 
 import com.auth0.jwt.interfaces.Claim;
 import com.lianxiao.demo.simpleserver.dto.StudentDto;
-import com.lianxiao.demo.simpleserver.model.Student;
-import com.lianxiao.demo.simpleserver.util.TokenUtils;
+import com.lianxiao.demo.simpleserver.utils.TokenUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;

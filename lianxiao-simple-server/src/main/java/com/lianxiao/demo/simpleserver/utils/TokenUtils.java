@@ -1,4 +1,4 @@
-package com.lianxiao.demo.simpleserver.util;
+package com.lianxiao.demo.simpleserver.utils;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;

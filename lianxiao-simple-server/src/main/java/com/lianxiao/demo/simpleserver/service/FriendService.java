@@ -8,26 +8,10 @@ import tk.mybatis.mapper.common.Mapper;
 
 import javax.annotation.Resource;
 import java.util.List;
-@Service
-public class FriendService extends BaseServiceImpl<Friend> {
-    @Resource
-    private FriendDao friendDao;
+public interface FriendService{
 
+    List<Friend> showAllFriends(long role_a_id);
 
-    @Override
-    public Mapper<Friend> getMapper() {
-        return friendDao;
-    }
-
-    public List<Friend> showAllFriends(long role_a_id) {
-        List<Friend> res=friendDao.selectAllFriend(role_a_id);
-        return res;
-    }
-
-    public void addrelation(Friend friendrelation) {
-        friendDao.insertRelation(friendrelation);
-    }
-    public void deleteById(long relationid) {
-        friendDao.deleteById(relationid);
-    }
+    void addrelation(Friend friendrelation);
+    void deleteById(long relationid);
 }

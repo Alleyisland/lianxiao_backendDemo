@@ -2,8 +2,8 @@ package com.lianxiao.demo.simpleserver.controller;
 
 import com.lianxiao.demo.simpleserver.base.BaseController;
 import com.lianxiao.demo.simpleserver.model.Film;
-import com.lianxiao.demo.simpleserver.service.FilmService;
-import com.lianxiao.demo.simpleserver.util.FastJsonUtils;
+import com.lianxiao.demo.simpleserver.service.other.FilmService;
+import com.lianxiao.demo.simpleserver.utils.FastJsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

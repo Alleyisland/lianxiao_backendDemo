@@ -1,4 +1,4 @@
-package com.lianxiao.demo.simpleserver.util;
+package com.lianxiao.demo.simpleserver.utils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
