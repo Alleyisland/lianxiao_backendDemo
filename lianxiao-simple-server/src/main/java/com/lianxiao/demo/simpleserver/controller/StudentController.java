@@ -2,7 +2,9 @@ package com.lianxiao.demo.simpleserver.controller;
 
 import com.lianxiao.demo.simpleserver.base.BaseController;
 import com.lianxiao.demo.simpleserver.dto.StudentDto;
+import com.lianxiao.demo.simpleserver.dto.MultiStudentDto;
 import com.lianxiao.demo.simpleserver.model.Student;
+import com.lianxiao.demo.simpleserver.service.IpLimitService;
 import com.lianxiao.demo.simpleserver.service.StudentService;
 import com.lianxiao.demo.simpleserver.utils.FastJsonUtils;
 import com.lianxiao.demo.simpleserver.utils.TokenUtils;
@@ -34,6 +36,9 @@ public class StudentController extends BaseController {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private IpLimitService ipLimitService;
 
     /**
      * 列表
@@ -222,4 +227,40 @@ public class StudentController extends BaseController {
         return FastJsonUtils.resultSuccess(200, "获取兴趣标签成功", results);
     }
 
+    @PostMapping(value = "/open/online")
+    @ResponseBody
+    @ApiOperation(value = "上线", notes = "更新用户登录状态")
+    public String Online(@RequestParam long uid) {
+        studentService.online(uid);
+        Map<String,Object> map=new HashMap<>();
+        map.put("status","ok");
+        return FastJsonUtils.resultSuccess(200, "更新在线状态成功", map);
+    }
+
+    @PostMapping(value = "/open/offline")
+    @ResponseBody
+    @ApiOperation(value = "离线", notes = "更新用户登录状态")
+    public String Offline(@RequestParam long uid) {
+        studentService.offline(uid);
+        Map<String,Object> map=new HashMap<>();
+        map.put("status","ok");
+        return FastJsonUtils.resultSuccess(200, "更新在线状态成功", map);
+    }
+
+    @PostMapping(value = "/open/online_status")
+    @ResponseBody
+    @ApiOperation(value = "查看在线状态", notes = "查看用户在线状态")
+    public String onlineStatus(@RequestBody MultiStudentDto multiStudentDto) {
+        Set<Long> uids=multiStudentDto.getUids();
+        Map<Long,Boolean> statusMap=studentService.onlineStatus(uids);
+        return FastJsonUtils.resultSuccess(200, "查询在线状态成功", statusMap);
+    }
+
+    @GetMapping(value = "/open/ip_limit")
+    @ResponseBody
+    @ApiOperation(value = "查看在线状态", notes = "查看用户在线状态")
+    public String Ip() {
+        boolean res=ipLimitService.validate("127.0.0.1");
+        return FastJsonUtils.resultSuccess(200, "ip限流成功", res);
+    }
 }

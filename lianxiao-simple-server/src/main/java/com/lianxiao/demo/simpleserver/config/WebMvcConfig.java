@@ -1,6 +1,7 @@
 package com.lianxiao.demo.simpleserver.config;
 
 import com.lianxiao.demo.simpleserver.Interceptor.AuthenticationInterceptor;
+import com.lianxiao.demo.simpleserver.Interceptor.IpLimitInterceptor;
 import com.lianxiao.demo.simpleserver.Interceptor.LoginArgumentResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,11 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     @Bean
     public AuthenticationInterceptor createAuthenticationInterceptor(){
         return new AuthenticationInterceptor();
+    }
+
+    @Bean
+    public IpLimitInterceptor createIpLimitInterceptor(){
+        return new IpLimitInterceptor();
     }
 
     @Bean
@@ -59,6 +65,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         registry.addInterceptor(createAuthenticationInterceptor())
                 .addPathPatterns("/student/**","/chat/**","/friends/**")
                 .excludePathPatterns("/student/open/**","/student/login/*","/student/register_or_login/*");
+        registry.addInterceptor(createIpLimitInterceptor()).addPathPatterns("/**").excludePathPatterns("/swagger-ui.html/**");
     }
 
     @Override

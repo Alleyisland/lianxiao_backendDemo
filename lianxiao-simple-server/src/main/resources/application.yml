@@ -31,7 +31,7 @@ spring:
   redis:
     database: 0
     host: 139.196.114.162
-    port: 6379
+    port: 6380
     lettuce:
       pool:
         max-active: 8 #连接池最大连接数量
@@ -39,7 +39,7 @@ spring:
         max-idle: 8   #连接池中最大空闲连接，默认8
         min-idle: 0   #连接池最小空闲连接，默认0
       shutdown-timeout: 1000
-    password:
+    password: Password123456!
     timeout: 3000
 
 rocketmq:

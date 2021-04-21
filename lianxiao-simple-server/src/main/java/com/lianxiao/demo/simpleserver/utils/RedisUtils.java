@@ -1,13 +1,20 @@
 package com.lianxiao.demo.simpleserver.utils;
 
 import com.alibaba.fastjson.JSON;
+import com.google.common.hash.HashCode;
+import com.google.common.hash.HashFunction;
+import com.google.common.hash.Hasher;
 import com.lianxiao.demo.simpleserver.exception.AppException;
+import org.apache.lucene.util.fst.FST;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
+import com.google.common.hash.Hashing;
 import org.springframework.data.redis.connection.RedisZSetCommands.Tuple;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Component;
 
@@ -16,8 +23,11 @@ import java.util.*;
 
 @Component
 public class RedisUtils {
+    private static final long BITSET_SHIFT = 48;
     @Autowired
     private RedisTemplate<Object,Object> redisTemplate;
+    @Autowired
+    private RedissonClient redissonClient;
 
     //  数字类型自增+1
     public void incr(Object key){
@@ -104,5 +114,46 @@ public class RedisUtils {
             for(Object o:value)
                 res.add((String)o);
         return res;
+    }
+
+    public void bitSetPut(Object key,long uid) {
+        HashFunction hf = Hashing.sha256();
+        HashCode hc = hf.newHasher()
+                .putLong(uid)
+                .hash();
+        long offset=hc.asLong()>>>BITSET_SHIFT;
+        redisTemplate.opsForValue().setBit(key,offset,true);
+    }
+
+    public void bitSetDel(Object key,long uid) {
+        HashFunction hf = Hashing.sha256();
+        HashCode hc = hf.newHasher()
+                .putLong(uid)
+                .hash();
+        long offset=hc.asLong()>>>BITSET_SHIFT;
+        redisTemplate.opsForValue().setBit(key,offset,false);
+    }
+
+    public Map<Long, Boolean> bitSetScan(Object key,Set<Long> uids) {
+        Map<Long,Boolean> res=new HashMap<>();
+        HashFunction hf = Hashing.sha256();
+        for(long uid:uids) {
+            HashCode hc = hf.newHasher()
+                    .putLong(uid)
+                    .hash();
+            long offset = hc.asLong()>>>BITSET_SHIFT;
+            System.out.println(offset);
+            res.put(uid,redisTemplate.opsForValue().getBit(key, offset));
+        }
+        return res;
+    }
+
+    public boolean execIPLimitScript(DefaultRedisScript script, Object key) {
+        List<Object> keys=new ArrayList<>();
+        keys.add(key);
+        System.out.println(key);
+        String limitWindow=num2Str(30);
+        String limitCnt=num2Str(100);
+        return (long)redisTemplate.execute(script,keys,limitWindow,limitCnt)==1L;
     }
 }

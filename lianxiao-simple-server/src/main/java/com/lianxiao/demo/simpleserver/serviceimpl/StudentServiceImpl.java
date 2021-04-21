@@ -8,11 +8,13 @@ import com.lianxiao.demo.simpleserver.utils.IdGeneratorUtils;
 import com.lianxiao.demo.simpleserver.utils.RedisUtils;
 import com.lianxiao.demo.simpleserver.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.common.Mapper;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 //import com.space.movie.moviespacesimpleserver.contants.Constant;
@@ -23,6 +25,7 @@ import java.util.Set;
 public class StudentServiceImpl extends BaseServiceImpl<Student> implements StudentService {
 
     private static final String  INTEREST_TAG = "INTEREST_TAGS_";
+    private static final Object ONOFFLINE_FILTER = "ONOFFLINE_FILTER";
     @Resource
     private StudentDao studentDao;
 
@@ -92,19 +95,32 @@ public class StudentServiceImpl extends BaseServiceImpl<Student> implements Stud
             return searchByDescription(description);
     }
 
-    public void updateInterestTags(Long uid, Set<String> tags) {
+    public void updateInterestTags(long uid, Set<String> tags) {
         String key=INTEREST_TAG+uid;
         redisUtils.flushSet(key,tags);
     }
 
-    public Set<String> commonInterestTags(Long uid1, Long uid2) {
+    public Set<String> commonInterestTags(long uid1, long uid2) {
         String key1=INTEREST_TAG+uid1;
         String key2=INTEREST_TAG+uid2;
         return redisUtils.interSet(key1,key2);
     }
 
-    public Set<String> fetchInterestTags(Long uid) {
+    public Set<String> fetchInterestTags(long uid) {
         String key=INTEREST_TAG+uid;
         return redisUtils.fetchSet(key);
+    }
+
+    public void online(long uid){
+        redisUtils.bitSetPut(ONOFFLINE_FILTER, uid);
+    }
+
+    public void offline(long uid){
+        redisUtils.bitSetDel(ONOFFLINE_FILTER, uid);
+    }
+
+    @Override
+    public Map<Long, Boolean> onlineStatus(Set<Long> uids) {
+        return redisUtils.bitSetScan(ONOFFLINE_FILTER,uids);
     }
 }

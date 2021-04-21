@@ -3,6 +3,7 @@ package com.lianxiao.demo.simpleserver.service;
 import com.lianxiao.demo.simpleserver.model.Student;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface StudentService {
@@ -25,9 +26,15 @@ public interface StudentService {
 
     List<Student> search(Long uid, String description);
 
-    void updateInterestTags(Long uid, Set<String> tags);
+    void updateInterestTags(long uid, Set<String> tags);
 
-    Set<String> commonInterestTags(Long uid1, Long uid2);
+    Set<String> commonInterestTags(long uid1, long uid2);
 
-    Set<String> fetchInterestTags(Long uid);
+    Set<String> fetchInterestTags(long uid);
+
+    void online(long uid);
+
+    void offline(long uid);
+
+    Map<Long, Boolean> onlineStatus(Set<Long> uids);
 }
