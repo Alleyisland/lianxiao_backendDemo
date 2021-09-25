@@ -15,9 +15,7 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 
@@ -64,6 +62,15 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<Post> findAll() {
         return TransformUtils.Iter2List(postRepository.findAll().iterator());
+    }
+
+    @Override
+    public Post findById(long postId) {
+        try {
+            return postRepository.findById((int) postId).get();
+        }catch (NoSuchElementException e){
+            return null;
+        }
     }
 
     /*@Override

@@ -35,6 +35,8 @@ public interface PostService extends ElasticService<Post> {
     Set<Object> getTopKPost();
 
     List<Post> fetchWeiboHot(Date date);
+
+    Post findById(long postId);
 }
 
 

@@ -34,7 +34,6 @@
         </dependencies>
     </dependencyManagement>
     <modules>
-        <module>lianxiao-eureka</module>
         <module>lianxiao-simple-server</module>
     </modules>
 

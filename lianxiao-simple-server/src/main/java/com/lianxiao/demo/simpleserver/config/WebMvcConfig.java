@@ -62,11 +62,11 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     //  拦截器
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(createAuthenticationInterceptor())
-                .addPathPatterns("/student/**",
-                        //"/chat/**",
-                        "/friends/**")
-                .excludePathPatterns("/student/open/**","/student/login/*","/student/register_or_login/*");
+//        registry.addInterceptor(createAuthenticationInterceptor())
+//                .addPathPatterns("/student/**",
+//                        //"/chat/**",
+//                        "/friends/**")
+//                .excludePathPatterns("/student/open/**","/student/login/*","/student/register_or_login/*");
         registry.addInterceptor(createIpLimitInterceptor()).addPathPatterns("/**").excludePathPatterns("/swagger-ui.html/**");
     }
 
