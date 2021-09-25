@@ -15,6 +15,7 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -28,7 +29,7 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private PostRepository postRepository;
     @Autowired
-    private RedisUtils redisOp;
+    private RedisUtils redisUtils;
 
     public static final String THUMB_UP_KEY = "post_thumb_up";
 
@@ -37,6 +38,8 @@ public class PostServiceImpl implements PostService {
     public static final int TOP_K=10;
 
     private final Pageable pageable = PageRequest.of(0, 10);
+
+    private static final String WEIBO_HOT_KEY_PREFIX = "weibo_hot_";
 
     @Override
     public void createIndex() {
@@ -94,19 +97,28 @@ public class PostServiceImpl implements PostService {
      */
 
     public void thumbUp(long pid) {
-        String strPid= redisOp.num2Str(pid);
-        int oldValue=redisOp.hGetNum(THUMB_UP_KEY,strPid);
-        redisOp.hSet(THUMB_UP_KEY,strPid, oldValue + 1);
-        redisOp.zSetAdd(THUMB_UP_RANK,strPid,oldValue + 1);
+        String strPid= redisUtils.num2Str(pid);
+        int oldValue= redisUtils.hGetNum(THUMB_UP_KEY,strPid);
+        redisUtils.hSet(THUMB_UP_KEY,strPid, oldValue + 1);
+        redisUtils.zSetAdd(THUMB_UP_RANK,strPid,oldValue + 1);
     }
 
     public int getThumbUp(long pid) {
-        String strPid= redisOp.num2Str(pid);
-        return redisOp.hGetNum(THUMB_UP_KEY,strPid);
+        String strPid= redisUtils.num2Str(pid);
+        return redisUtils.hGetNum(THUMB_UP_KEY,strPid);
     }
 
     public Set<Object> getTopKPost() {
-        return redisOp.zSetRange(THUMB_UP_RANK,0,TOP_K);
+        return redisUtils.zSetRange(THUMB_UP_RANK,0,TOP_K);
+    }
+
+    public List<Post> fetchWeiboHot(Date date) {
+        int month=date.getMonth()+1;
+        int day=date.getDate();
+        if(date.getHours()<12)
+            day=day-1;
+        String key=WEIBO_HOT_KEY_PREFIX+month+"_"+day;
+        return redisUtils.getPostList(key);
     }
 
     /*@Override

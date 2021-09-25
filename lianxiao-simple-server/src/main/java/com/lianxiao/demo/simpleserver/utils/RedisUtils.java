@@ -1,10 +1,12 @@
 package com.lianxiao.demo.simpleserver.utils;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hasher;
 import com.lianxiao.demo.simpleserver.exception.AppException;
+import com.lianxiao.demo.simpleserver.model.Post;
 import org.apache.lucene.util.fst.FST;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -142,7 +144,6 @@ public class RedisUtils {
                     .putLong(uid)
                     .hash();
             long offset = hc.asLong()>>>BITSET_SHIFT;
-            System.out.println(offset);
             res.put(uid,redisTemplate.opsForValue().getBit(key, offset));
         }
         return res;
@@ -151,9 +152,72 @@ public class RedisUtils {
     public boolean execIPLimitScript(DefaultRedisScript script, Object key) {
         List<Object> keys=new ArrayList<>();
         keys.add(key);
-        System.out.println(key);
         String limitWindow=num2Str(30);
         String limitCnt=num2Str(100);
         return (long)redisTemplate.execute(script,keys,limitWindow,limitCnt)==1L;
+    }
+
+    public List<Long> getList(Object key) {
+        List<Long>res=new ArrayList<>();
+        List<Object> ids=redisTemplate.opsForList().range(key,0,-1);
+        if(ids!=null)
+            for(Object o: ids)
+                res.add(Long.parseLong((String) o));
+        return res;
+    }
+
+    public List<Post> getPostList(Object key) {
+        List<Post>res=new ArrayList<>();
+        List<Object> posts=redisTemplate.opsForList().range(key,0,-1);
+        if(posts!=null) {
+            for (Object o : posts) {
+                System.out.println(o.toString());
+                res.add(JSON.parseObject(o.toString(), Post.class));
+            }
+        }
+        return res;
+    }
+
+    public void listAddOne(Object key, Object value) {
+        redisTemplate.opsForList().leftPush(key,value);
+    }
+
+    public List<Post> listReplace(Object key, List<Post> posts) {
+        List<Post> res=new ArrayList<>();
+
+        List<Object> oldValues = redisTemplate.opsForList().range(key, 0, -1);
+        Long oldSize=redisTemplate.opsForList().size(key);
+        if(oldSize!=null) {
+            for(int i=0;i<oldSize;i++) {
+                redisTemplate.opsForList().rightPop(key);
+            }
+        }
+
+        return res;
+    }
+
+    public void delKey(Object key){
+        redisTemplate.delete(key);
+    }
+
+    public void expire(Object key, Date date) {
+        redisTemplate.expireAt(key,date);
+    }
+
+    public void listAddAll(Object key, List<Post> posts) {
+        for(Post p:posts){
+            redisTemplate.opsForList().leftPush(key,JSON.toJSONString(p));
+        }
+    }
+
+    public List<Post> fetchOldList(Object key) {
+        List<Post> res=new ArrayList<>();
+        List<Object> oldValues = redisTemplate.opsForList().range(key, 0, -1);
+        if(oldValues!=null&&oldValues.size()!=0){
+            for (Object o : oldValues) {
+                res.add(JSON.parseObject((String) o, Post.class));
+            }
+        }
+        return res;
     }
 }

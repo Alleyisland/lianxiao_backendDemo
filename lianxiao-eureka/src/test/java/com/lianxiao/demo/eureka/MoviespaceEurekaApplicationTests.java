@@ -8,6 +8,7 @@ class MoviespaceEurekaApplicationTests {
 
     @Test
     void contextLoads() {
+
     }
 
 }

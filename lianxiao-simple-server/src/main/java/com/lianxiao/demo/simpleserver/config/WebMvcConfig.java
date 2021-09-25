@@ -63,7 +63,9 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(createAuthenticationInterceptor())
-                .addPathPatterns("/student/**","/chat/**","/friends/**")
+                .addPathPatterns("/student/**",
+                        //"/chat/**",
+                        "/friends/**")
                 .excludePathPatterns("/student/open/**","/student/login/*","/student/register_or_login/*");
         registry.addInterceptor(createIpLimitInterceptor()).addPathPatterns("/**").excludePathPatterns("/swagger-ui.html/**");
     }

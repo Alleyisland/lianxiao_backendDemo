@@ -24,8 +24,8 @@ import java.util.Set;
 @Service
 public class StudentServiceImpl extends BaseServiceImpl<Student> implements StudentService {
 
-    private static final String  INTEREST_TAG = "INTEREST_TAGS_";
-    private static final Object ONOFFLINE_FILTER = "ONOFFLINE_FILTER";
+    private static final String INTEREST_TAG = "interest_tags_";
+    private static final Object ONOFFLINE_FILTER = "onoffline_filter";
     @Resource
     private StudentDao studentDao;
 

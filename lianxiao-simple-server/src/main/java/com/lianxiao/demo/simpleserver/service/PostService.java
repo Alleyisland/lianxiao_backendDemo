@@ -4,6 +4,7 @@ import com.lianxiao.demo.simpleserver.model.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -32,6 +33,8 @@ public interface PostService extends ElasticService<Post> {
 
     int getThumbUp(long pid);
     Set<Object> getTopKPost();
+
+    List<Post> fetchWeiboHot(Date date);
 }
 
 

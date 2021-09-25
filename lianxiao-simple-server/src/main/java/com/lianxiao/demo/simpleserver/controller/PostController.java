@@ -64,6 +64,7 @@ public class PostController extends BaseController {
 
     @GetMapping(value = "/get_thumb_up")
     @ResponseBody
+    @ApiOperation(value = "获取帖子赞数", notes = "获取帖子赞数")
     public String getThumbUp(@RequestParam long pid) {
         int cnt=postService.getThumbUp(pid);
         Map<String, Object> result = new HashMap<>();
@@ -74,6 +75,7 @@ public class PostController extends BaseController {
 
     @GetMapping(value = "/get_hottest_post")
     @ResponseBody
+    @ApiOperation(value = "获取最热帖子", notes = "获取当前最热门帖子")
     public String getHottestPost() {
         Set<Object> results=postService.getTopKPost();
         return FastJsonUtils.resultSuccess(200, "获取排行榜成功", results);
@@ -92,6 +94,14 @@ public class PostController extends BaseController {
     @ApiOperation(value = "全部帖子", notes = "全部帖子")
     public String all() {
         List<Post> results = postService.findAll();
+        return FastJsonUtils.resultSuccess(200, "成功", results);
+    }
+
+    @GetMapping(value = "/weiboHot")
+    @ResponseBody
+    @ApiOperation(value = "微博热门话题", notes = "微博热门话题")
+    public String weiboHot() {
+        List<Post> results = postService.fetchWeiboHot(new Date());
         return FastJsonUtils.resultSuccess(200, "成功", results);
     }
 

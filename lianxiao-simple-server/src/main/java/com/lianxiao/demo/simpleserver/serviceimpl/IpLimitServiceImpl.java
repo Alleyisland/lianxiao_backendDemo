@@ -13,7 +13,7 @@ import javax.annotation.PostConstruct;
 
 @Service
 public class IpLimitServiceImpl implements IpLimitService {
-    private static final String IP_LIMIT = "IP_LIMIT_";
+    private static final String IP_LIMIT = "ip_limit_";
     @Autowired
     private RedisUtils redisUtils;
     private DefaultRedisScript<Long> ipScript;

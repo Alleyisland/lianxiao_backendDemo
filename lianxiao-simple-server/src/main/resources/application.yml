@@ -49,3 +49,20 @@ rocketmq:
 
 logging:
   config: classpath:log4j2.xml
+
+nacos:
+  discovery:
+    server-addr: 139.196.114.162
+
+dubbo:
+  application:
+    name: dubbo-provider-test
+    qos-enable: false
+    qos-accept-foreign-ip: false
+  registry:
+    address: nacos://139.196.114.162:8848
+  scan:
+    base-packages: com.lianxiao.demo.simpleserver.serviceimpl
+  protocol:
+    name: dubbo
+    port: 20880

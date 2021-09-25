@@ -1,5 +1,9 @@
 package com.lianxiao.demo.simpleserver.controller;
 
+import com.alibaba.nacos.api.annotation.NacosInjected;
+import com.alibaba.nacos.api.exception.NacosException;
+import com.alibaba.nacos.api.naming.NamingService;
+import com.alibaba.nacos.api.naming.pojo.Instance;
 import com.lianxiao.demo.simpleserver.base.BaseController;
 import com.lianxiao.demo.simpleserver.dto.StudentDto;
 import com.lianxiao.demo.simpleserver.dto.MultiStudentDto;
@@ -31,6 +35,9 @@ import java.util.Set;
 @Api(description = "用户接口")
 public class StudentController extends BaseController {
 
+    @NacosInjected
+    private NamingService namingService;
+
     @Autowired
     private StudentService studentService;
 
@@ -49,6 +56,12 @@ public class StudentController extends BaseController {
     public String all(){
         List<Student> result = studentService.showAllStudent();
         return FastJsonUtils.resultSuccess(200, "拉取学生列表成功", result);
+    }
+
+    @GetMapping(value = "/open/get_instance")
+    @ResponseBody
+    public List<Instance> getInstance(@RequestParam String serviceName) throws NacosException {
+        return namingService.getAllInstances(serviceName);
     }
 
     @PostMapping(value="/register_or_login/send_auth_code")

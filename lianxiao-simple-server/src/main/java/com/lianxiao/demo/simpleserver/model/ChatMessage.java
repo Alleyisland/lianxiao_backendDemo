@@ -17,9 +17,12 @@ public class ChatMessage {
     long receiverId;
 
     @JSONField(ordinal = 5)
-    long datetime;
+    long groupId;
 
     @JSONField(ordinal = 6)
+    long datetime;
+
+    @JSONField(ordinal = 7)
     String content;
 
     public long getId() {
@@ -70,6 +73,14 @@ public class ChatMessage {
         this.content = content;
     }
 
+    public long getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(long groupId) {
+        this.groupId = groupId;
+    }
+
     @Override
     public String toString() {
         return "ChatMessage{" +
@@ -77,6 +88,7 @@ public class ChatMessage {
                 ", type=" + type +
                 ", senderId=" + senderId +
                 ", receiverId=" + receiverId +
+                ", groupId=" + groupId +
                 ", datetime=" + datetime +
                 ", content='" + content + '\'' +
                 '}';
