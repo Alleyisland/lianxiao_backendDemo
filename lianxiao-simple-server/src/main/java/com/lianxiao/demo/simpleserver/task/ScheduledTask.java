@@ -21,7 +21,7 @@ import java.util.*;
 
 @Component
 @EnableAsync
-public class TestTask {
+public class ScheduledTask {
 
     private static final String WEIBO_HOT_RANK="https://s.weibo.com/top/summary";
     private static final String WEIBO_HOT_ITEM_CLASS="td-02";

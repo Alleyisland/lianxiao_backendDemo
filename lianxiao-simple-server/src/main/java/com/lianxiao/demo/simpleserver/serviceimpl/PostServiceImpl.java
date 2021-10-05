@@ -67,7 +67,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public Post findById(long postId) {
         try {
-            return postRepository.findById((int) postId).get();
+            return postRepository.findById(postId).get();
         }catch (NoSuchElementException e){
             return null;
         }
