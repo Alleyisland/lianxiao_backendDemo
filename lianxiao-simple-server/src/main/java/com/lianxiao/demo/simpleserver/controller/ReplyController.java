@@ -48,6 +48,8 @@ public class ReplyController extends BaseController {
     public String search(@ApiParam(name = "rid", value = "回复id") @RequestParam(required = false) Long rid,
                          @ApiParam(name = "uid", value = "发表者id") @RequestParam(required = false) Long uid,
                          @ApiParam(name = "pid", value = "帖子id") @RequestParam(required = false) Long pid) {
+        if (uid == null && rid == null && pid == null)
+            return FastJsonUtils.resultSuccess(200, "请输入查询条件", null);
         List<Reply> results=replyService.search(rid,uid,pid);
         return FastJsonUtils.resultSuccess(200, "查询回复成功", results);
     }

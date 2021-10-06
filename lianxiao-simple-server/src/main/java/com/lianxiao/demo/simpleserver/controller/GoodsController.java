@@ -37,6 +37,8 @@ public class GoodsController extends BaseController {
     public String search(@ApiParam(name = "gid", value = "商品id") @RequestParam(required = false) Long gid,
                          @ApiParam(name = "gtype", value = "商品类型") @RequestParam(required = false) Integer gtype,
                          @ApiParam(name = "gname", value = "商品名称") @RequestParam(required = false, defaultValue = "") String gname) {
+        if (gid == null && gtype == null && gname.equals(""))
+            return FastJsonUtils.resultSuccess(200, "请输入查询条件", null);
         List<Goods> results=goodsService.search(gid,gname,gtype);
         return FastJsonUtils.resultSuccess(200, "搜索商品成功", results);
     }
