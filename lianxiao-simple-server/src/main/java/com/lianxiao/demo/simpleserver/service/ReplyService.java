@@ -1,5 +1,6 @@
 package com.lianxiao.demo.simpleserver.service;
 
+import com.lianxiao.demo.simpleserver.model.Post;
 import com.lianxiao.demo.simpleserver.model.Reply;
 
 import java.util.List;

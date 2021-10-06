@@ -1,8 +1,11 @@
 package com.lianxiao.demo.simpleserver.serviceimpl;
 
 import com.lianxiao.demo.simpleserver.dao.PostRepository;
+import com.lianxiao.demo.simpleserver.dao.ReplyDao;
 import com.lianxiao.demo.simpleserver.model.Post;
+import com.lianxiao.demo.simpleserver.model.Reply;
 import com.lianxiao.demo.simpleserver.service.PostService;
+import com.lianxiao.demo.simpleserver.service.ReplyService;
 import com.lianxiao.demo.simpleserver.utils.RedisUtils;
 import com.lianxiao.demo.simpleserver.utils.TransformUtils;
 import org.apache.commons.lang.StringUtils;
@@ -28,6 +31,9 @@ public class PostServiceImpl implements PostService {
     private PostRepository postRepository;
     @Autowired
     private RedisUtils redisUtils;
+    @Autowired
+    private ReplyService replyService;
+    private ReplyDao replydao;
 
     public static final String THUMB_UP_KEY = "post_thumb_up";
 
@@ -71,6 +77,11 @@ public class PostServiceImpl implements PostService {
         }catch (NoSuchElementException e){
             return null;
         }
+    }
+
+
+    public List<Reply> findReplyById(long postId) {
+        return replyService.searchByPid(postId);
     }
 
     /*@Override

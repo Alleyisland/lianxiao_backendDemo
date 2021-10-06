@@ -55,7 +55,6 @@ public class ReplyServiceImpl extends BaseServiceImpl<Reply> implements ReplySer
 
     public List<Reply> searchByPid(Long pid) {
         return replyDao.selectByPid(pid);
-
     }
 
     public List<Reply> searchByUid(Long uid) {

@@ -2,7 +2,11 @@ package com.lianxiao.demo.simpleserver.controller;
 
 import com.lianxiao.demo.simpleserver.base.BaseController;
 import com.lianxiao.demo.simpleserver.model.Post;
+import com.lianxiao.demo.simpleserver.model.Reply;
 import com.lianxiao.demo.simpleserver.service.PostService;
+import com.lianxiao.demo.simpleserver.service.ReplyService;
+import com.lianxiao.demo.simpleserver.serviceimpl.PostServiceImpl;
+import com.lianxiao.demo.simpleserver.serviceimpl.ReplyServiceImpl;
 import com.lianxiao.demo.simpleserver.utils.FastJsonUtils;
 import com.lianxiao.demo.simpleserver.utils.IdGeneratorUtils;
 import com.lianxiao.demo.simpleserver.utils.TransformUtils;
@@ -21,9 +25,16 @@ public class PostController extends BaseController {
 
     @Autowired
     private PostService postService;
+    private PostServiceImpl postServicelmpl;
+    private ReplyService replyService;
+    private ReplyServiceImpl replyServicelmpl;
 
     @Autowired
     private IdGeneratorUtils idGeneratorUtils;
+
+    public PostController(PostServiceImpl postServicelmpl) {
+        this.postServicelmpl = postServicelmpl;
+    }
 
     @GetMapping("/init")
     @ResponseBody
@@ -88,7 +99,26 @@ public class PostController extends BaseController {
         List<Post> result = TransformUtils.Iter2List(postService.query(keyword).iterator());
         return FastJsonUtils.resultSuccess(200, "搜索帖子成功", result);
     }
-
+    @GetMapping(value = "/search_by_pid")
+    @ResponseBody
+    @ApiOperation(value = "根据id查找帖子和回复", notes = "根据帖子id查找帖子和回复")
+    public String searchbypid(@ApiParam(name="id",value = "根据id查找帖子和回复",required = true)@RequestParam Long id) {
+        Post result1=postServicelmpl.findById(id);
+        List<Reply> result2=postServicelmpl.findReplyById(id);
+        Map<String, Object> result = new HashMap<>();
+       /* result.put("postcontent",result1);*/
+        result.put("replies",result2);
+        result.put("post",result1);
+        return FastJsonUtils.resultSuccess(200, "搜索帖子和回复成功", result);
+    }
+   /* @GetMapping(value = "/search_by_id")
+    @ResponseBody
+    @ApiOperation(value = "根据id查找回复", notes = "根据帖子id查找回复")
+    public String searchbyid(@ApiParam(name="id",value = "根据id搜索回复",required = true)@RequestParam Long id) {
+        List<Reply> results=postServicelmpl.findReplyById(id);
+        return FastJsonUtils.resultSuccess(200, "搜索回复成功", results);
+    }
+*/
     @GetMapping(value = "/all")
     @ResponseBody
     @ApiOperation(value = "全部帖子", notes = "全部帖子")

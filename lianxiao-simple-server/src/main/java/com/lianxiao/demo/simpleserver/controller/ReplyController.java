@@ -1,7 +1,9 @@
 package com.lianxiao.demo.simpleserver.controller;
 
 import com.lianxiao.demo.simpleserver.base.BaseController;
+import com.lianxiao.demo.simpleserver.model.Post;
 import com.lianxiao.demo.simpleserver.model.Reply;
+import com.lianxiao.demo.simpleserver.service.PostService;
 import com.lianxiao.demo.simpleserver.service.ReplyService;
 import com.lianxiao.demo.simpleserver.utils.FastJsonUtils;
 import io.swagger.annotations.Api;
@@ -20,6 +22,7 @@ import java.util.Map;
 public class ReplyController extends BaseController {
     @Autowired
     private ReplyService replyService;
+    private PostService postService;
 
     @GetMapping(value = "/all")
     @ResponseBody
@@ -47,6 +50,13 @@ public class ReplyController extends BaseController {
                          @ApiParam(name = "pid", value = "帖子id") @RequestParam(required = false) Long pid) {
         List<Reply> results=replyService.search(rid,uid,pid);
         return FastJsonUtils.resultSuccess(200, "查询回复成功", results);
+    }
+    @GetMapping(value = "/search_by_id")
+    @ResponseBody
+    @ApiOperation(value = "根据id查找回复", notes = "根据帖子id查找回复")
+    public String searchbyid(@ApiParam(name = "id", value = "根据id搜索回复") @RequestParam(required = true) Long id) {
+        List<Reply> results=replyService.searchByPid(id);
+        return FastJsonUtils.resultSuccess(200, "搜索回复成功", results);
     }
 
     @PostMapping(value = "/delete")
