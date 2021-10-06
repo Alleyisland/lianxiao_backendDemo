@@ -16,6 +16,8 @@ public interface GoodsService {
 
     public List<Goods> searchByType(int gtype);
 
+    public List<Goods> searchByUid(long uid);
+
     /**
      * 根据gid删除商品
      */

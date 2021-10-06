@@ -28,4 +28,7 @@ public interface GoodsDao extends MyMapper<Goods> {
 
     //  模糊查询
     List<Goods> selectByName(@Param("gname") String gname);
+
+    @Select(value = "select * from goods where uid=#{uid}")
+    List<Goods> selectByUid(long uid);
 }

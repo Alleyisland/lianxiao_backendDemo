@@ -21,7 +21,6 @@ public class GoodsController extends BaseController {
     @Autowired
     private GoodsService goodsService;
 
-
     @GetMapping(value = "/all")
     @ResponseBody
     @ApiOperation(value = "全部商品", notes = "全部商品")
@@ -29,7 +28,6 @@ public class GoodsController extends BaseController {
         List<Goods> result = goodsService.showAllGoods();
         return FastJsonUtils.resultSuccess(200, "拉取商品列表成功", result);
     }
-
 
     @GetMapping(value = "/search")
     @ResponseBody
@@ -40,6 +38,16 @@ public class GoodsController extends BaseController {
         if (gid == null && gtype == null && gname.equals(""))
             return FastJsonUtils.resultSuccess(200, "请输入查询条件", null);
         List<Goods> results=goodsService.search(gid,gname,gtype);
+        return FastJsonUtils.resultSuccess(200, "搜索商品成功", results);
+    }
+
+    @GetMapping(value = "/user_goods")
+    @ResponseBody
+    @ApiOperation(value = "查询某个用户的商品", notes = "通过用户id查找商品")
+    public String search(@ApiParam(name = "uid", value = "用户id") @RequestParam(required = true) Long uid) {
+        if (uid == null)
+            return FastJsonUtils.resultSuccess(200, "请输入查询条件", null);
+        List<Goods> results=goodsService.searchByUid(uid);
         return FastJsonUtils.resultSuccess(200, "搜索商品成功", results);
     }
 

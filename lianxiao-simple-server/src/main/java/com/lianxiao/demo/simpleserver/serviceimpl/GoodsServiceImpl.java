@@ -64,6 +64,10 @@ public class GoodsServiceImpl extends BaseServiceImpl<Goods> implements GoodsSer
         else return result.get(0);
     }
 
+    public List<Goods> searchByUid(long uid) {
+        return goodsDao.selectByUid(uid);
+    }
+
     public List<Goods> search(Long gid, String gname, Integer gtype) {
         if(gid==null&&gname==null&&gtype==null)
             return new ArrayList<>();

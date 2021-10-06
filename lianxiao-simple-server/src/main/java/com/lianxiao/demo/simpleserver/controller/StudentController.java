@@ -88,7 +88,9 @@ public class StudentController extends BaseController {
             //登录
             if(studentService.SelectByPhone(phone).size()==1) {
                 Student stu=studentService.SelectByPhone(phone).get(0);
+                String token=TokenUtils.generateJwtToken(phone);
                 map.put("uid",stu.getUid());
+                map.put("token",token);
                 return FastJsonUtils.resultSuccess(200, "验证通过,用户登录成功", map);
             }
             //注册
@@ -96,13 +98,15 @@ public class StudentController extends BaseController {
                 Student stuInfo=new Student();
                 stuInfo.setPhone(phone);
                 long uid=studentService.addStudent(stuInfo);//插入
+                String token=TokenUtils.generateJwtToken(phone);
                 map.put("uid",uid);
+                map.put("token",token);
                 return FastJsonUtils.resultSuccess(200, "验证通过,用户注册成功", map);
             }
         }
         //验证码错误
         else {
-            map.put("result",true);
+            map.put("result",false);
             return FastJsonUtils.resultSuccess(200, "验证码错误，用户注册/登录失败", map);
         }
     }
@@ -160,23 +164,23 @@ public class StudentController extends BaseController {
         return new HttpEntity<>(jsonMap, httpHeaders);
     }
 
-    @PostMapping(value = "/login/v2")
-    @ResponseBody
-    @ApiOperation(value = "登录_v2", notes = "登录_v2")
-    public String login(@ApiParam(name = "phone", value = "手机号",required = true)@RequestParam String phone,
-                         @ApiParam(name = "password", value = "密码",required = true)@RequestParam String password) {
-        Student stu=new Student();
-        stu.setPhone(phone);
-        stu.setPassword(password);
-        if(studentService.auth(stu)) {
-            String token=TokenUtils.generateJwtToken(phone);
-            Map<String,Object> map=new HashMap<>();
-            map.put("token",token);
-            return FastJsonUtils.resultSuccess(200, "用户登录成功", map);
-        }
-        else
-            return FastJsonUtils.resultSuccess(200, "用户登录失败", null);
-    }
+//    @PostMapping(value = "/login/v2")
+//    @ResponseBody
+//    @ApiOperation(value = "登录_v2", notes = "登录_v2")
+//    public String login(@ApiParam(name = "phone", value = "手机号",required = true)@RequestParam String phone,
+//                         @ApiParam(name = "password", value = "密码",required = true)@RequestParam String password) {
+//        Student stu=new Student();
+//        stu.setPhone(phone);
+//        stu.setPassword(password);
+//        if(studentService.auth(stu)) {
+//            String token=TokenUtils.generateJwtToken(phone);
+//            Map<String,Object> map=new HashMap<>();
+//            map.put("token",token);
+//            return FastJsonUtils.resultSuccess(200, "用户登录成功", map);
+//        }
+//        else
+//            return FastJsonUtils.resultSuccess(200, "用户登录失败", null);
+//    }
 
     @PostMapping(value = "/login/v3")
     @ResponseBody

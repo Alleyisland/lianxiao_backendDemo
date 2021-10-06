@@ -33,7 +33,6 @@ public class PostServiceImpl implements PostService {
     private RedisUtils redisUtils;
     @Autowired
     private ReplyService replyService;
-    private ReplyDao replydao;
 
     public static final String THUMB_UP_KEY = "post_thumb_up";
 
