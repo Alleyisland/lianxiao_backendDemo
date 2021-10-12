@@ -25,6 +25,7 @@ public class FriendServiceImpl extends BaseServiceImpl<Friend> implements Friend
         return res;
     }
 
+
     public void addrelation(Friend friendrelation) {
         friendDao.insertRelation(friendrelation);
     }

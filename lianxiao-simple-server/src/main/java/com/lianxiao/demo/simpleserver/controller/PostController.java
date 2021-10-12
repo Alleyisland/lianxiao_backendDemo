@@ -50,11 +50,12 @@ public class PostController extends BaseController {
     @ApiOperation(value = "发表帖子", notes = "发表帖子")
     public String submit(@ApiParam(name="type",value = "帖子类型",required = true)@RequestParam int type,
                          @ApiParam(name="owner_id",value = "发布者id",required = true)@RequestParam long owner_id,
+                         @ApiParam(name="owner_name",value = "发布者名字",required = true)@RequestParam String owner_name,
                          @ApiParam(name="title",value = "帖子标题",required = true)@RequestParam String title,
                          @ApiParam(name="content",value = "帖子内容",required = true)@RequestParam String content
     ) {
         long postId = idGeneratorUtils.nextId();
-        Post post = new Post(postId,type,String.valueOf(owner_id),new Date(),title,content);
+        Post post = new Post(postId,type,String.valueOf(owner_id),String.valueOf(owner_name),new Date(),title,content);
         postService.save(post);
         Map<String, Object> result = new HashMap<>();
         result.put("postId", postId);

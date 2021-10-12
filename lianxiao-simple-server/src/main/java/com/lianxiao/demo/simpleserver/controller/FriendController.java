@@ -3,6 +3,7 @@ package com.lianxiao.demo.simpleserver.controller;
 import com.lianxiao.demo.simpleserver.base.BaseController;
 import com.lianxiao.demo.simpleserver.model.Apply;
 import com.lianxiao.demo.simpleserver.model.Friend;
+import com.lianxiao.demo.simpleserver.model.Goods;
 import com.lianxiao.demo.simpleserver.service.ApplyService;
 import com.lianxiao.demo.simpleserver.service.FriendService;
 import com.lianxiao.demo.simpleserver.utils.FastJsonUtils;
@@ -51,7 +52,14 @@ public class FriendController extends BaseController {
         result.put("result","ok");
         return FastJsonUtils.resultSuccess(200, "发送好友关系成功", result);
     }
-
+    @PostMapping(value = "/search")
+    @ResponseBody
+    @ApiOperation(value = "查找所有发送请求的请求者", notes = "查找所有发送请求的请求者")
+    public String search(@ApiParam(name = "friend_id", value = "被申请用户id",required = true) @RequestParam(required = true) long friend_id
+    ) {
+        List<Apply> results = applyService.showAllApplies(friend_id);
+        return FastJsonUtils.resultSuccess(200, "查询申请者名单成功", results);
+    }
     @PostMapping(value = "/pass")
     @ResponseBody
     @ApiOperation(value = "请求通过", notes = "请求通过")

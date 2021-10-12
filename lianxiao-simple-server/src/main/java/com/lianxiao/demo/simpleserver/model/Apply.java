@@ -19,83 +19,85 @@ public class Apply extends BaseEntity {
      */
     @Column(name = "`apply_type`")
     @JSONField(ordinal = 2)
-    private long apply_type; /**
+    private long applytype; /**
      * source_uid
      */
     @Column(name = "`source_uid`")
     @JSONField(ordinal = 3)
-    private long source_uid; /**
+    private long sourceuid; /**
      * friend_id
      */
     @Column(name = "`friend_id`")
     @JSONField(ordinal = 4)
-    private long friend_id; /**
+    private long friendid; /**
      * group_id
      */
-    @Column(name = "`group_id`")
+    @Column(name = "`grou_id`")
     @JSONField(ordinal = 5)
-    private long group_id; /**
+    private long groupid; /**
      * status
      */
     @Column(name = "`status`")
     @JSONField(ordinal = 6)
     private long status;
 
-    public Apply(long applyid, long apply_type, long source_uid, long friend_id, long group_id, long status) {
+    public Apply(long applyid, long applytype, long sourceuid, long friendid, long groupid, long status) {
         this.applyid = applyid;
-        this.apply_type = apply_type;
-        this.source_uid = source_uid;
-        this.friend_id = friend_id;
-        this.group_id = group_id;
+        this.applytype = applytype;
+        this.sourceuid = sourceuid;
+        this.friendid = friendid;
+        this.groupid = groupid;
         this.status = status;
     }
     public Apply(){
 
     }
+
     public long getApplyid() {
         return applyid;
     }
 
     public void setApplyid(long applyid) {
-        this.applyid= applyid;
+        this.applyid = applyid;
     }
 
-    public int getApply_type(int apply_type) {
-        return apply_type;
+    public long getApplytype() {
+        return applytype;
     }
 
-    public void setApply_type(int apply_type) {
-        this.apply_type = apply_type;
+    public void setApplytype(long applytype) {
+        this.applytype = applytype;
     }
 
-    public long getSource_uid() {
-        return source_uid;
+    public long getSourceuid() {
+        return sourceuid;
     }
 
-    public void setSource_uid(long source_uid) {
-        this.source_uid = source_uid;
+    public void setSourceuid(long sourceuid) {
+        this.sourceuid = sourceuid;
     }
 
-    public String getFriend_id(String friend_id) {
-        return friend_id;
+    public long getFriendid() {
+        return friendid;
     }
 
-    public void setFriend_id(long friend_id) {
-        this.friend_id = friend_id; }
-
-    public String getGroup_id(String group_id) {
-        return group_id;
+    public void setFriendid(long friendid) {
+        this.friendid = friendid;
     }
 
-    public void setGroup_id(long group_id) {
-        this.group_id = group_id;
+    public long getGroupid() {
+        return groupid;
+    }
+
+    public void setGroupid(long groupid) {
+        this.groupid = groupid;
     }
 
     public long getStatus() {
         return status;
     }
 
-    public void setStatus() {
+    public void setStatus(long status) {
         this.status = status;
     }
 
@@ -103,10 +105,10 @@ public class Apply extends BaseEntity {
     public String toString() {
         return "Apply{" +
                 "applyid=" + applyid +
-                ", apply_type=" + apply_type +
-                ", source_uid=" + source_uid +
-                ", friend_id=" + friend_id +
-                ", group_id=" + group_id +
+                ", apply_type=" + applytype +
+                ", source_uid=" + sourceuid +
+                ", friend_id=" + friendid +
+                ", group_id=" + groupid +
                 ", status=" + status +
                 '}';
     }

@@ -3,10 +3,10 @@
 <mapper namespace="com.lianxiao.demo.simpleserver.dao.ApplyDao">
     <resultMap id="ApplyMap" type="com.lianxiao.demo.simpleserver.model.Apply">
         <id column="applyid" jdbcType="BIGINT" property="applyid"/>
-        <result column="apply_type" jdbcType="INTEGER" property="apply_type"/>
-        <result column="source_uid" jdbcType="BIGINT" property="source_uid"/>
-        <result column="friend_id" jdbcType="BIGINT" property="friend_id"/>
-        <result column="group_id" jdbcType="BIGINT" property="group_id"/>
+        <result column="apply_type" jdbcType="INTEGER" property="applytype"/>
+        <result column="source_uid" jdbcType="BIGINT" property="sourceuid"/>
+        <result column="friend_id" jdbcType="BIGINT" property="friendid"/>
+        <result column="group_id" jdbcType="BIGINT" property="groupid"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
     </resultMap>
 </mapper>

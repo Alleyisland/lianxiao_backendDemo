@@ -88,7 +88,7 @@ public class ScheduledTask {
                 abstr=null;
             }
             if(title!=null&&href!=null&&abstr!=null){
-                Post hotPost=new Post(idGeneratorUtils.nextId(),0,"-1",new Date(),title,abstr);
+                Post hotPost=new Post(idGeneratorUtils.nextId(),0,"-1","hww",new Date(),title,abstr);
                 System.out.println(hotPost);
                 hotPosts.add(hotPost);
             }

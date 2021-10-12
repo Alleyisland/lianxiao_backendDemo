@@ -38,6 +38,9 @@ public class GoodsController extends BaseController {
         if (gid == null && gtype == null && gname.equals(""))
             return FastJsonUtils.resultSuccess(200, "请输入查询条件", null);
         List<Goods> results=goodsService.search(gid,gname,gtype);
+        if(results.isEmpty())
+            return FastJsonUtils.resultSuccess(200, "不存在该商品", null);
+        else
         return FastJsonUtils.resultSuccess(200, "搜索商品成功", results);
     }
 
